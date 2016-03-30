@@ -15,18 +15,17 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'q38)#&$#f+5efdpzf!l^_6uuvqp)vl9w!onp!mcb+3n4m_6cte'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+try:
+  from localconfig import SECRET_KEY
+  from localconfig import DEBUG
+  from localconfig import ALLOWED_HOSTS
+except:
+  SECRET_KEY = 'q38)#&$#f+5efdpzf!l^_6uuvqp)vl9w!onp!mcb+3n4m_6cte'
+  DEBUG = True
+  ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -56,7 +55,7 @@ ROOT_URLCONF = 'dndspells.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['html'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,12 +73,15 @@ WSGI_APPLICATION = 'dndspells.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+try:
+  from localconfig import DATABASES
+except:
+  DATABASES = {
+      'default': {
+          'ENGINE': 'django.db.backends.sqlite3',
+          'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+      }
+  }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -94,3 +96,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+  os.path.join(BASE_DIR, "images"),
+  os.path.join(BASE_DIR, "css"),
+  os.path.join(BASE_DIR, "js")
+)
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")

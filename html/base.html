@@ -1,0 +1,21 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static "global.css" %}">
+    {% block css %}
+    {% endblock css %}
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    {% block js %}
+    {% endblock js %}
+	<title>DND Spells</title>
+  </head>
+  <body class="{{body_classes}}">
+    <div id="content">
+      {% block main %}
+      {% endblock main %}
+    </div>
+  </body>
+</html>
