@@ -1,10 +1,22 @@
-from django.core.serializers import serialize
 from django.shortcuts import render
+from django.http import HttpResponse
+import json
 
 from .models import *
 
 def index(request):
-  spells_json = serialize("json", Spell.objects.all())
   return render(request, 'index.html', {
-    'spells_json': spells_json
+    'spells': json.dumps(spells())
   })
+
+def spells_json(request):
+  return HttpResponse(json.dumps(spells()), content_type='application/json')
+
+# private methods
+
+def spells():
+  spells = {}
+  for spell in Spell.objects.values():
+    spells[spell['id']] = spell
+  return spells
+  
