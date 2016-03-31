@@ -6,10 +6,6 @@
     <link rel="stylesheet" type="text/css" href="{% static "global.css" %}">
     {% block css %}
     {% endblock css %}
-
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    {% block js %}
-    {% endblock js %}
 	<title>DND Spells</title>
   </head>
   <body class="{{body_classes}}">
@@ -17,5 +13,11 @@
       {% block main %}
       {% endblock main %}
     </div>
+    <footer>
+      {% block footer %}
+      {% endblock footer %}
+      {% block js %}
+      {% endblock js %}
+    <footer>
   </body>
 </html>

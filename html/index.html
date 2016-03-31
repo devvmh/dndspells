@@ -4,9 +4,12 @@
 {% block css %}
 {% endblock css %}
 
-{% block js %}
-{% endblock js %}
-
 {% block main %}
-  {{ spells }}
+<div id="spell-editor"></div>
 {% endblock main %}
+
+{% block js %}
+<script type"text/javascript">var spells = {{ spells }}</script>
+<script type="text/javascript" src={% static "lib/SpellEditor.js" %}></script>
+<script type="text/javascript" src={% static "lib/index.js" %}></script>
+{% endblock js %}
