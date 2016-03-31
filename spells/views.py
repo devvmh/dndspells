@@ -6,11 +6,8 @@ from .models import *
 
 def index(request):
   return render(request, 'index.html', {
-    'spells': json.dumps(spells())
+    'spells': json.dumps([x for x in Spell.objects.values()])
   })
-
-def spells_json(request):
-  return HttpResponse(json.dumps(spells()), content_type='application/json')
 
 # private methods
 

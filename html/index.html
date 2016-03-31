@@ -9,7 +9,7 @@
 {% endblock main %}
 
 {% block js %}
-<script type"text/javascript">var spells = {{ spells }}</script>
-<script type="text/javascript" src={% static "lib/SpellEditor.js" %}></script>
-<script type="text/javascript" src={% static "lib/index.js" %}></script>
+<script type"text/javascript">var spells = {{ spells | safe }}</script>
+<script type="text/javascript" src={% static "SpellEditor.js" %}></script>
+<script type="text/javascript" src={% static "index.js" %}></script>
 {% endblock js %}
