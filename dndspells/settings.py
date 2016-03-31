@@ -36,7 +36,8 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
+    'django.contrib.staticfiles',
+    'rest_framework'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -102,3 +103,9 @@ STATICFILES_DIRS = (
   os.path.join(BASE_DIR, "js")
 )
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
+REST_FRAMEWORK = {
+  'DEFAULT_PERMISSIONS_CLASSES': [
+    'rest_framework.permissions.AllowAny'
+  ]
+}
