@@ -1,10 +1,8 @@
-import SpellEditor from './SpellEditor'
+import Root from './Root'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-console.log("starting")
 ReactDOM.render(
-  <SpellEditor spells={spells} />,
-  document.getElementById('spell-editor')
+  <Root spells={spells} />,
+  document.getElementById('root')
 )
-console.log("finished")
