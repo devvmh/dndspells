@@ -37,7 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework'
+    'rest_framework',
+    'webpack_loader'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -101,7 +102,6 @@ STATICFILES_DIRS = (
   os.path.join(BASE_DIR, "images"),
   os.path.join(BASE_DIR, "css"),
   os.path.join(BASE_DIR, "js/lib"),
-  os.path.join(BASE_DIR, "js/extlib")
 )
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
@@ -109,4 +109,11 @@ REST_FRAMEWORK = {
   'DEFAULT_PERMISSIONS_CLASSES': [
     'rest_framework.permissions.AllowAny'
   ]
+}
+
+WEBPACK_LOADER = {
+  'DEFAULT': {
+    'BUNDLE_DIR_NAME': './',
+    'STATS_FILE': os.path.join(BASE_DIR, 'js/webpack-stats.json')
+  }
 }

@@ -25,16 +25,18 @@ class SpellEditor extends Component {
     return this.state.spells
   }
 
-  render = () => {
-    <div>
-      <ClassChooser onChange={this.chooseClass}
-        currentClass={this.state.class}
-      />
-      <ClassSpellAssigner onAssign={this.assignSpell} 
-        currentClass={this.state.class}
-        spells={this.organizeSpells()}
-      />
-    </div>
+  render() {
+    return (
+      <div>
+        <ClassChooser onChange={this.chooseClass}
+          currentClass={this.state.currentClass}
+        />
+        <ClassSpellAssigner onAssign={this.assignSpell} 
+          currentClass={this.state.currentClass}
+          spells={this.organizeSpells()}
+        />
+      </div>
+    )
   }
 }
 
@@ -53,8 +55,10 @@ const ClassChooser = (props) => (
   <label>
     Which class do you want?
     <input type="text"
-      value={this.props.currentClass}
-      onChange={this.props.onChange}
+      value={props.currentClass}
+      onChange={props.onChange}
     />
   </label>
 )
+
+export default SpellEditor

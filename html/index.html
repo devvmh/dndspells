@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load render_bundle from webpack_loader %}
 
 {% block css %}
 {% endblock css %}
@@ -9,7 +10,6 @@
 {% endblock main %}
 
 {% block js %}
-<script type"text/javascript">var spells = {{ spells | safe }}</script>
-<script type="text/javascript" src={% static "SpellEditor.js" %}></script>
-<script type="text/javascript" src={% static "index.js" %}></script>
+<script type="text/javascript">var spells = {{ spells | safe }}</script>
+{% render_bundle 'main' %}
 {% endblock js %}

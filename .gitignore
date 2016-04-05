@@ -1,6 +1,8 @@
 *.pyc
 venv
 
+npm-debug.log
 node_modules/
-lib/
-dist/
+js/lib/
+js/dist/
+js/webpack-stats.json
