@@ -1,13 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import _ from 'lodash'
-import ClassSpellAssigner from './ClassSpellAssigner'
-import ClassChooser from './ClassChooser'
  
 class SpellAssigner extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentClass: null
+      currentClass: 'Wizard'
     }
   }
 
@@ -18,15 +16,12 @@ class SpellAssigner extends Component {
     })
   }
 
-  assignSpell = spell => {
-    alert("TODO")
-  }
-
   organizeSpells = () => {
     if (this.state.currentClass === null) {
       return this.props.spells
     }
     return _.filter(this.props.spells, spell => {
+      if (spell.name === 'Aid') debugger
       return spell.classes.indexOf(this.state.currentClass) === -1
     })
   }
@@ -35,7 +30,6 @@ class SpellAssigner extends Component {
     const { currentClass } = this.state
     const { classes } = spell
 
-    if (currentClass === null) return
     if (classes.indexOf(currentClass) !== -1) return
 
     const newArray = classes.concat([currentClass])
@@ -43,6 +37,7 @@ class SpellAssigner extends Component {
   }
 
   render() {
+    var self = this
     return (
       <div>
         <label>
@@ -51,17 +46,16 @@ class SpellAssigner extends Component {
             value={this.state.currentClass}
             onChange={this.chooseClass}
           >
-            <option>---</option>
-            {props.classes.map(c => (
-              <option key={c.name} value={c.name}>{c.name}</option>
+            {this.props.classes.map(c => (
+              <option key={c} value={c}>{c}</option>
             ))}
           </select>
         </label>
         <div>
           <p>Here are all of the spells not in that class:</p>
           <ul>
-            {props.spells.map(spell => (
-              <li key={spell.id} onClick={this.handleAssignSpell(spell)}>
+            {this.props.spells.map(spell => (
+              <li key={spell.id} onClick={self.handleAssignSpell(spell)}>
                 {spell.name}
               </li>
             ))}

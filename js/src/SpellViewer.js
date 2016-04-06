@@ -84,7 +84,7 @@ class SpellViewer extends Component {
       >
         <option value="">--Any class--</option>
         {classes.map(c => {
-          return <option key={c.name} value={c.name}>{c.name}</option>
+          return <option key={c} value={c}>{c}</option>
         })}
       </select>
     )

@@ -45,6 +45,7 @@ class Root extends Component {
   render() {
     const { tabIndex } = this.state
     const { TabComponent } = this.tabs[tabIndex]
+    const classes = this.props.classes.map(c => c.name)
     return (
       <div>
         {Object.keys(this.tabs).map(index => {
@@ -60,7 +61,7 @@ class Root extends Component {
           )
         })}
         <TabComponent spells={this.state.spells}
-          classes={this.props.classes}
+          classes={classes}
           createSpell={this.handleCreateSpell}
           updateSpell={this.handleUpdateSpell}
           deleteSpell={this.handleDeleteSpell}
