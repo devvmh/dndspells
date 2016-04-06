@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import SpellEditor from './SpellEditor'
+import SpellViewer from './SpellViewer'
 import _ from 'lodash'
 
 class Root extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      tabIndex: 1
+      tabIndex: 2
     }
   }
 
@@ -14,6 +15,10 @@ class Root extends Component {
     1: {
       name: "Spell Editor",
       TabComponent: SpellEditor
+    },
+    2: {
+      name: "Spell Viewer",
+      TabComponent: SpellViewer
     }
   }
 
