@@ -5,8 +5,7 @@ class SpellEditor extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentClass: null,
-      spells: props.spells
+      currentClass: null
     }
   }
 
@@ -22,7 +21,7 @@ class SpellEditor extends Component {
   }
 
   organizeSpells = () => {
-    return this.state.spells
+    return this.props.spells
   }
 
   render() {
@@ -30,6 +29,7 @@ class SpellEditor extends Component {
       <div>
         <ClassChooser onChange={this.chooseClass}
           currentClass={this.state.currentClass}
+          classes={this.props.classes}
         />
         <ClassSpellAssigner onAssign={this.assignSpell} 
           currentClass={this.state.currentClass}
@@ -54,10 +54,15 @@ const ClassSpellAssigner = (props) => (
 const ClassChooser = (props) => (
   <label>
     Which class do you want?
-    <input type="text"
+    <select
       value={props.currentClass}
       onChange={props.onChange}
-    />
+    >
+      <option>--Any class--</option>
+      {props.classes.map(c => (
+        <option key={c.name} value={c.name}>{c.name}</option>
+      ))}
+    </select>
   </label>
 )
 

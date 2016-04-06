@@ -44,14 +44,15 @@ class Root extends Component {
             </a>
           )
         })}
-        <TabComponent spells={this.props.spells} />
+        <TabComponent spells={this.props.spells} classes={this.props.classes}/>
       </div>
     )
   }
 }
 
 Root.propTypes = {
-  spells: PropTypes.object
+  spells: PropTypes.array,
+  classes: PropTypes.array
 }
 
 export default Root
