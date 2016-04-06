@@ -49,10 +49,11 @@ class Root extends Component {
       <div>
         {Object.keys(this.tabs).map(index => {
           const tab = this.tabs[index]
+          const active = tabIndex === index ? 'btn-primary' : 'btn-default'
           return (
             <a onClick={this.handleTabChange(index)}
               key={index}
-              className="btn btn-default"
+              className={`btn ${active}`}
             >
               {tab.name}
             </a>
