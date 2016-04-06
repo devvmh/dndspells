@@ -21,7 +21,10 @@ class SpellAssigner extends Component {
       return this.props.spells
     }
     return _.filter(this.props.spells, spell => {
-      if (spell.name === 'Aid') debugger
+      if (spell.name === 'Aid') {
+        console.log(spell.classes)
+        console.log(this.state.currentClass)
+      }
       return spell.classes.indexOf(this.state.currentClass) === -1
     })
   }
@@ -54,7 +57,7 @@ class SpellAssigner extends Component {
         <div>
           <p>Here are all of the spells not in that class:</p>
           <ul>
-            {this.props.spells.map(spell => (
+            {this.organizeSpells().map(spell => (
               <li key={spell.id} onClick={self.handleAssignSpell(spell)}>
                 {spell.name}
               </li>

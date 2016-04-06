@@ -3,6 +3,8 @@ import SpellAssigner from './SpellAssigner'
 import SpellViewer from './SpellViewer'
 import _ from 'lodash'
 
+const URL = 'http://localhost:3333/api'
+
 class Root extends Component {
   constructor(props) {
     super(props)
@@ -35,7 +37,29 @@ class Root extends Component {
   }
 
   handleUpdateSpell = (id, data) => {
-    alert("TODO implement")
+    const self = this
+    fetch(`${URL}/spells/${id}/`, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      const newState = self.state
+      newState.spells = self.state.spells.map(spell => {
+        if (spell.id === data.id) {
+          return data
+        }
+        return spell
+      })
+      self.setState(newState)
+    }).catch(error => {
+      console.error("updateSpell caught an error")
+      console.error(error)
+    })
   }
 
   handleDeleteSpell = id => {
