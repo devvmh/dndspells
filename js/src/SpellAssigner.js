@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import _ from 'lodash'
 
-class SpellEditor extends Component {
+class SpellAssigner extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -71,4 +71,4 @@ const ClassChooser = (props) => (
   </label>
 )
 
-export default SpellEditor
+export default SpellAssigner

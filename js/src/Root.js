@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import SpellEditor from './SpellEditor'
+import SpellAssigner from './SpellAssigner'
 import SpellViewer from './SpellViewer'
 import _ from 'lodash'
 
@@ -7,19 +7,19 @@ class Root extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      tabIndex: 2,
+      tabIndex: 1,
       spells: props.spells
     }
   }
 
   tabs = {
     1: {
-      name: "Spell Editor",
-      TabComponent: SpellEditor
-    },
-    2: {
       name: "Spell Viewer",
       TabComponent: SpellViewer
+    },
+    2: {
+      name: "Spell Assigner",
+      TabComponent: SpellAssigner
     }
   }
 
@@ -52,6 +52,7 @@ class Root extends Component {
           return (
             <a onClick={this.handleTabChange(index)}
               key={index}
+              className="btn btn-default"
             >
               {tab.name}
             </a>
