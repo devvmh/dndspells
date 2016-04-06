@@ -7,7 +7,8 @@ class Root extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      tabIndex: 2
+      tabIndex: 2,
+      spells: props.spells
     }
   }
 
@@ -28,6 +29,18 @@ class Root extends Component {
     }
     this.setState({ tabIndex })
   }
+  
+  handleCreateSpell = spell => {
+    alert("TODO implement")
+  }
+
+  handleUpdateSpell = (id, data) => {
+    alert("TODO implement")
+  }
+
+  handleDeleteSpell = id => {
+    alert("TODO implement")
+  }
 
   render() {
     const { tabIndex } = this.state
@@ -44,7 +57,12 @@ class Root extends Component {
             </a>
           )
         })}
-        <TabComponent spells={this.props.spells} classes={this.props.classes}/>
+        <TabComponent spells={this.state.spells}
+          classes={this.props.classes}
+          createSpell={this.handleCreateSpell}
+          updateSpell={this.handleUpdateSpell}
+          deleteSpell={this.handleDeleteSpell}
+        />
       </div>
     )
   }

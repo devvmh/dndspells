@@ -9,10 +9,10 @@ class SpellEditor extends Component {
     }
   }
 
-  chooseClass = newClass => {
+  chooseClass = e => {
     this.setState({
-      ...state,
-      currentClass: newClass
+      ...this.state,
+      currentClass: e.target.value
     })
   }
 
@@ -21,7 +21,12 @@ class SpellEditor extends Component {
   }
 
   organizeSpells = () => {
-    return this.props.spells
+    if (this.state.currentClass === null) {
+      return this.props.spells
+    }
+    return _.filter(this.props.spells, spell => {
+      return spell.classes.indexOf(this.state.currentClass) === -1
+    })
   }
 
   render() {
@@ -42,7 +47,7 @@ class SpellEditor extends Component {
 
 const ClassSpellAssigner = (props) => (
   <div>
-    <p>Here are all of the spells:</p>
+    <p>Here are all of the spells not in that class:</p>
     <ul>
       {props.spells.map(spell => (
         <li key={spell.id}>{spell.name}</li>
@@ -53,7 +58,7 @@ const ClassSpellAssigner = (props) => (
 
 const ClassChooser = (props) => (
   <label>
-    Which class do you want?
+    Which class's spells are you adding to? 
     <select
       value={props.currentClass}
       onChange={props.onChange}

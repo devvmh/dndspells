@@ -146,7 +146,7 @@ class SpellViewer extends Component {
             <th>Classes</th>
             <th>Components</th>
             <th>School</th>
-            <th>Description (click me!)<th>
+            <th>Description (click me!)</th>
           </tr></thead>
           {levels.map(level => {
             const spells = spellsByLevel[level]
