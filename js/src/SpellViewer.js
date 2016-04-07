@@ -15,6 +15,10 @@ class SpellViewer extends Component {
         },
         school: ""
       },
+      groupBy: {
+        level: true,
+        school: false
+      },
       expandedSpell: null
     }
   }
@@ -37,6 +41,16 @@ class SpellViewer extends Component {
       newState.expandedSpell = id
     }
     this.setState(newState)
+  }
+
+  handleGroupByChange = field => e => {
+    this.setState({
+      ...this.state,
+      groupBy: {
+        ...this.state.groupBy,
+        [field]: !!e.target.checked
+      }
+    })
   }
 
   filterClass = spells => {
@@ -72,8 +86,56 @@ class SpellViewer extends Component {
     )
   }
 
-  renderableSpells = () => {
-    return _.groupBy(this.filteredSpells(), 'level')
+  groupedSpells = () => {
+    const { level, school } = this.state.groupBy
+    if (level && school) {
+      const byLevel = _.groupBy(this.filteredSpells(), 'level')
+      Object.keys(byLevel).forEach(level => {
+        byLevel[level] = _.groupBy(byLevel[level], 'school')
+      })
+      return byLevel // internal values now further grouped by school
+    }
+    if (level) {
+      return _.groupBy(this.filteredSpells(), 'level')
+    }
+    if (school) {
+      return _.groupBy(this.filteredSpells(), 'school')
+    }
+    return { all: this.filteredSpells() }
+  }
+
+  groupedSpellKeys = () => {
+    const { level, school } = this.state.groupBy
+    const levels = ['cantrip', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th',
+                    '8th', '9th']
+    const schools = ['Abjuration', 'Conjuration', 'Divination', 'Enchantment',
+                     'Evocation', 'Illusion', 'Necromancy', 'Transmutation']
+    if (level && school) {
+      const keys = []
+      levels.forEach(level => {
+        schools.forEach(school => {
+          keys.push(`${level}.${school}`)
+        })
+      })
+      return keys
+    }
+    if (level) return levels
+    if (school) return schools
+    return ['all']
+  }
+
+  groupedSpellHeading = (key) => {
+    const { level, school } = this.state.groupBy
+    const levelHeading = key => (
+      key === 'cantrip' ? 'Cantrips' : `${key} Level Spells`
+    )
+    if (level && school) {
+      const [key1, key2] = key.split('.')
+      return `${levelHeading(key1)} - ${key2}`
+    }
+    if (level) return levelHeading(key)
+    if (school) return key
+    return 'All Spells (ungrouped)'
   }
 
   renderClassFilter = () => {
@@ -120,6 +182,27 @@ class SpellViewer extends Component {
     )
   }
 
+  renderGroupingChoices = () => {
+    return (
+      <div>
+        <label>
+          <input type="checkbox"
+            checked={this.state.groupBy.level}
+            onChange={this.handleGroupByChange('level')}
+          />
+          Group by Level
+        </label>
+        <label>
+          <input type="checkbox"
+            checked={this.state.groupBy.school}
+            onChange={this.handleGroupByChange('school')}
+          />
+          Group By School
+        </label>
+      </div>
+    )
+  }
+
   renderSpellDescription = spell => {
     if (this.state.expandedSpell === spell.id) {
       return spell.description
@@ -129,15 +212,14 @@ class SpellViewer extends Component {
   }
 
   render = () => {
-    const spellsByLevel = this.renderableSpells()
-    const levels = ['cantrip', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th',
-                    '8th', '9th']
+    const spells = this.groupedSpells()
     return (
       <div>
         {this.renderClassFilter()}
         {this.renderLevelFilter()}
         {this.renderComponentFilters()}
         {this.renderSchoolFilter()}
+        {this.renderGroupingChoices()}
         <table className="table table-striped">
           <colgroup span="4" />
           <colgroup style={{ width: "50%" }} />
@@ -148,17 +230,15 @@ class SpellViewer extends Component {
             <th>School</th>
             <th>Description (click me!)</th>
           </tr></thead>
-          {levels.map(level => {
-            const spells = spellsByLevel[level]
-            if (spells === undefined) return null
-            const levelDisplay = (
-              level === 'cantrip' ? 'Cantrips' : `${level} Level Spells`
-            )
+          {this.groupedSpellKeys().map(key => {
+            const spellGroup = _.get(spells, key)
+            if (spellGroup === undefined) return null
+            const heading = this.groupedSpellHeading(key)
 
             return (
-              <tbody key={level}>
-                <tr><th>{levelDisplay}</th><th /><th /><th /><th /></tr>
-                {spells.map(spell => {
+              <tbody key={key}>
+                <tr><th colSpan="5">{heading}</th></tr>
+                {spellGroup.map(spell => {
                   return (
                     <tr key={spell.id} className={`spell-${spell.id}`}>
                       <td>{spell.name}</td>
