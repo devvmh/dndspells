@@ -16,16 +16,16 @@ class SpellAssigner extends Component {
     })
   }
 
-  organizeSpells = () => {
+  spellsInClass = inClass => {
     if (this.state.currentClass === null) {
       return this.props.spells
     }
     return _.filter(this.props.spells, spell => {
-      if (spell.name === 'Aid') {
-        console.log(spell.classes)
-        console.log(this.state.currentClass)
+      if (inClass) {
+        return spell.classes.indexOf(this.state.currentClass) !== -1
+      } else {
+        return spell.classes.indexOf(this.state.currentClass) === -1
       }
-      return spell.classes.indexOf(this.state.currentClass) === -1
     })
   }
 
@@ -36,6 +36,14 @@ class SpellAssigner extends Component {
     if (classes.indexOf(currentClass) !== -1) return
 
     const newArray = classes.concat([currentClass])
+    this.props.updateSpell(spell.id, { classes: newArray })
+  }
+
+  handleUnassignSpell = spell => e => {
+    const { currentClass } = this.state
+    const { classes } = spell
+
+    const newArray = _.without(classes, currentClass)
     this.props.updateSpell(spell.id, { classes: newArray })
   }
 
@@ -54,16 +62,25 @@ class SpellAssigner extends Component {
             ))}
           </select>
         </label>
-        <div>
-          <p>Here are all of the spells not in that class:</p>
+        <table><tbody><tr><td style={{ verticalAlign: 'top' }}>
+          <p>Not currently {this.state.currentClass} spells:</p>
           <ul>
-            {this.organizeSpells().map(spell => (
+            {this.spellsInClass(false).map(spell => (
               <li key={spell.id} onClick={self.handleAssignSpell(spell)}>
                 {spell.name}
               </li>
             ))}
           </ul>
-        </div>
+        </td><td style={{ verticalAlign: 'top' }}>
+          <p>Currently assigned {this.state.currentClass} spells:</p>
+          <ul>
+            {this.spellsInClass(true).map(spell => (
+              <li key={spell.id} onClick={self.handleUnassignSpell(spell)}>
+                {spell.name}
+              </li>
+            ))}
+          </ul>
+        </td></tr></tbody></table>
       </div>
     )
   }
