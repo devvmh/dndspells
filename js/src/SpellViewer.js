@@ -234,7 +234,7 @@ class SpellViewer extends Component {
         `<strong>Duration</strong>: ${spell.duration}</p>` +
         spell.description
     } else {
-      return `${spell.description.substring(0, 100)}...`.replace('<p>', '')
+      return `${spell.description.substring(0, 90)}...`.replace('<p>', '')
     }
   }
 
