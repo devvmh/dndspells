@@ -1,3 +1,4 @@
+dndspells/localconfig.py
 *.pyc
 venv
 
