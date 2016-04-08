@@ -5,9 +5,7 @@ source venv/bin/activate
 
 python manage.py migrate
 
-cd js
-npm run build
-cd ..
+(cd js && npm run build)
 
 python manage.py collectstatic --noinput
 bin/fix-permissions.sh

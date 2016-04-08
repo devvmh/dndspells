@@ -24,3 +24,4 @@ chmod g+w ${DEPLOY_DIR}/db.sqlite3
 #executables
 chmod -R ug+x ${DEPLOY_DIR}/venv/bin
 chmod -R u+x ${DEPLOY_DIR}/bin
+chmod -R u+x ${DEPLOY_DIR}/js/node_modules/.bin
