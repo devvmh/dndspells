@@ -270,6 +270,7 @@ class SpellViewer extends Component {
                   return [(
                     <tr key={`${spell.id}-row1`}
                       className={`spell-${spell.id}`}
+                      onClick={this.expandSpell(spell.id)}
                     >
                       <td>{!this.props.authenticated ? spell.name : (
                         <a href={`${baseUrl}/admin/spells/spell/${spell.id}/`}>{spell.name}</a>
@@ -281,10 +282,10 @@ class SpellViewer extends Component {
                   ), (
                     <tr key={`${spell.id}-row2`}
                       className={`desc-${spell.id}`}
+                      onClick={this.expandSpell(spell.id)}
                     >
                       <td></td>
-                      <td onClick={this.expandSpell(spell.id)}
-                        dangerouslySetInnerHTML={{__html: this.renderSpellDescription(spell)}}
+                      <td dangerouslySetInnerHTML={{__html: this.renderSpellDescription(spell)}}
                         colSpan="3"
                       />
                     </tr>
