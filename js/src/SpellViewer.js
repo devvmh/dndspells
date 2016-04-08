@@ -252,14 +252,11 @@ class SpellViewer extends Component {
         {this.renderGroupingChoices()}
         {this.renderMiscChoices()}
         <table className="table table-striped">
-          <colgroup span="4" />
-          <colgroup style={{ width: "75%" }} />
           <thead><tr>
             <th>Spell</th>
             <th>Classes</th>
             <th>Level</th>
             <th>School</th>
-            <th>Description (click me!)</th>
           </tr></thead>
           {this.groupedSpellKeys().map(key => {
             const spellGroup = _.get(spells, key)
@@ -268,21 +265,30 @@ class SpellViewer extends Component {
 
             return (
               <tbody key={key}>
-                <tr><th colSpan="6">{heading}</th></tr>
-                {spellGroup.map(spell => {
-                  return (
-                    <tr key={spell.id} className={`spell-${spell.id}`}>
+                <tr><th colSpan="4">{heading}</th></tr>
+                {_.flatMap(spellGroup, spell => {
+                  return [(
+                    <tr key={`${spell.id}-row1`}
+                      className={`spell-${spell.id}`}
+                    >
                       <td>{!this.props.authenticated ? spell.name : (
                         <a href={`${baseUrl}/admin/spells/spell/${spell.id}/`}>{spell.name}</a>
                       )}</td>
                       <td>{spell.classes.join(", ")}</td>
                       <td>{spell.level}</td>
                       <td>{spell.school}</td>
+                    </tr>
+                  ), (
+                    <tr key={`${spell.id}-row2`}
+                      className={`desc-${spell.id}`}
+                    >
+                      <td></td>
                       <td onClick={this.expandSpell(spell.id)}
                         dangerouslySetInnerHTML={{__html: this.renderSpellDescription(spell)}}
+                        colSpan="3"
                       />
                     </tr>
-                  )
+                  )]
                 })}
               </tbody>
             )
