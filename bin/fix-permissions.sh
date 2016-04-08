@@ -12,7 +12,9 @@ find ${DEPLOY_DIR} -path ${DEPLOY_DIR}/js/node_modules -prune -type d -exec chmo
 find ${DEPLOY_DIR} -path ${DEPLOY_DIR}/js/node_modules -prune -type f -exec chmod u=rw,g=r,o= '{}' \;
 
 #allow web server to access web directory
+chmod o+rx ${DEPLOY_DIR}
 chgrp -R ${WEB_USER} ${DEPLOY_DIR}/dndspells
+chgrp -R ${WEB_USER} ${DEPLOY_DIR}/static
 
 #venv setup
 chgrp -R ${WEB_USER} ${DEPLOY_DIR}/venv/bin
