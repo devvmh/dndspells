@@ -172,7 +172,7 @@ class SpellViewer extends Component {
         onChange={this.handleFilterChange('level')}
       >
         <option value="">--Any level--</option>
-        {levels.map(l => (<option key={l}>{l}</option>))}
+        {levels.map(l => (<option key={l} value={l}>{l}</option>))}
       </select>
     )
   }
@@ -185,7 +185,7 @@ class SpellViewer extends Component {
         onChange={this.handleFilterChange('school')}
       >
         <option value="">--Any school--</option>
-        {schools.map(s => (<option key={s}>{s}</option>))}
+        {schools.map(s => (<option key={s} value={s}>{s}</option>))}
       </select>
     )
   }
@@ -242,7 +242,6 @@ class SpellViewer extends Component {
     if (!this.props.state) {
       return <div>Loading...</div>
     }
-    console.log(this.props.state)
     const spells = this.groupedSpells()
     const { baseUrl } = this.props
     return (
