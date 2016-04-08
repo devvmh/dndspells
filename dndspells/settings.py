@@ -107,7 +107,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 REST_FRAMEWORK = {
   'DEFAULT_PERMISSIONS_CLASSES': [
-    'rest_framework.permissions.AllowAny'
+    'rest_framework.permissions.IsAuthenticatedOrReadOnly'
   ]
 }
 

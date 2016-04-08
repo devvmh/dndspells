@@ -3,33 +3,78 @@ import SpellAssigner from './SpellAssigner'
 import SpellViewer from './SpellViewer'
 import _ from 'lodash'
 
-const URL = 'http://localhost:3333/api'
+const BASE_URL = `${window.location.protocol}//${window.location.host}`
+const API = `${BASE_URL}/api`
+const tabs = {
+  1: {
+    name: "Spell Viewer",
+    TabComponent: SpellViewer,
+    needs_auth: false
+  },
+  2: {
+    name: "Spell Assigner",
+    TabComponent: SpellAssigner,
+    needs_auth: true
+  }
+}
 
 class Root extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      spells: this.props.spells,
       tabIndex: 1,
-      spells: props.spells
+      authenticated: false,
+      tabState: {}
     }
   }
 
-  tabs = {
-    1: {
-      name: "Spell Viewer",
-      TabComponent: SpellViewer
-    },
-    2: {
-      name: "Spell Assigner",
-      TabComponent: SpellAssigner
+  componentWillMount = () => {
+    const newState = JSON.parse(localStorage.getItem('state')) || this.state
+    newState.spells = window.spells
+    if (tabs[newState.tabIndex].needs_auth && !newState.authenticated) {
+      console.log("adjusting tab index")
+      newState.tabIndex = 1
     }
+    console.log(newState.authenticated)
+    this.lsSetState(newState)
+  }
+
+  lsSetState = state => {
+    console.log(state)
+    localStorage.setItem('state', JSON.stringify(_.omit(state, ['spells'])))
+    this.setState(state)
+  }
+
+  toggleAuthenticated = () => {
+    const newState = this.state
+    newState.authenticated = !this.state.authenticated
+    console.log(newState.authenticated)
+    this.lsSetState(newState)
   }
 
   handleTabChange = tabIndex => () => {
-    if (!(tabIndex.toString() in this.tabs)) {
+    if (!(tabIndex.toString() in tabs)) {
+      console.log('1')
       return
     }
-    this.setState({ tabIndex })
+    if (tabs[tabIndex].needs_auth && !this.state.authenticated) {
+      console.log('2')
+      return
+    }
+    const newState = this.state
+    newState.tabIndex = tabIndex
+    this.lsSetState({ ...this.state, tabIndex })
+  }
+
+  handleChangeTabState = tabIndex => newState => {
+    this.lsSetState({
+      ...this.state,
+      tabState: {
+        ...this.state.tabState,
+        [tabIndex]: newState
+      }
+    })
   }
   
   handleCreateSpell = spell => {
@@ -38,7 +83,7 @@ class Root extends Component {
 
   handleUpdateSpell = (id, data) => {
     const self = this
-    fetch(`${URL}/spells/${id}/`, {
+    fetch(`${API}/spells/${id}/`, {
       method: 'PATCH',
       headers: {
         'Accept': 'application/json',
@@ -55,7 +100,7 @@ class Root extends Component {
         }
         return spell
       })
-      self.setState(newState)
+      self.lsSetState(newState)
     }).catch(error => {
       console.error("updateSpell caught an error")
       console.error(error)
@@ -66,15 +111,16 @@ class Root extends Component {
     alert("TODO implement")
   }
 
-  render() {
+  render = () => {
     const { tabIndex } = this.state
-    const { TabComponent } = this.tabs[tabIndex]
+    const { needs_auth, TabComponent } = tabs[tabIndex]
     const classes = this.props.classes.map(c => c.name)
+    const filteredTabs = this.state.authenticated ? tabs : _.omitBy(tabs, t => t.needs_auth)
     return (
       <div>
-        {Object.keys(this.tabs).map(index => {
-          const tab = this.tabs[index]
-          const active = tabIndex === index ? 'btn-primary' : 'btn-default'
+        {Object.keys(filteredTabs).map(index => {
+          const tab = tabs[index]
+          const active = tabIndex.toString() === index ? 'btn-default' : 'btn-primary'
           return (
             <a onClick={this.handleTabChange(index)}
               key={index}
@@ -84,11 +130,20 @@ class Root extends Component {
             </a>
           )
         })}
+        <span style={{ color: 'white' }}
+          onClick={this.toggleAuthenticated}
+        >
+          .
+        </span>
         <TabComponent spells={this.state.spells}
           classes={classes}
+          authenticated={this.state.authenticated}
+          baseUrl={BASE_URL}
           createSpell={this.handleCreateSpell}
           updateSpell={this.handleUpdateSpell}
           deleteSpell={this.handleDeleteSpell}
+          changeTabState={this.handleChangeTabState(tabIndex)}
+          state={this.state.tabState[tabIndex]}
         />
       </div>
     )

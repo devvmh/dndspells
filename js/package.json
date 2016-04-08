@@ -4,7 +4,9 @@
   "description": "dndspells",
   "repository": "~/ownCloud/Programming/dndspells",
   "main": "webpack.config.js",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.8.2"
+  },
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-core": "^6.7.4",
