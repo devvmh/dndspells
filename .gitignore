@@ -1,6 +1,7 @@
 dndspells/localconfig.py
 *.pyc
 venv
+db.sqlite3
 
 npm-debug.log
 node_modules/
