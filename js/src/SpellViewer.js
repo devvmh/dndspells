@@ -153,7 +153,7 @@ class SpellViewer extends Component {
   renderClassFilter = () => {
     const { classes } = this.props
     return (
-      <select value={this.props.state.casterClass} 
+      <select value={this.props.state.filters.casterClass} 
         onChange={this.handleFilterChange('casterClass')}
       >
         <option value="">--Any class--</option>
@@ -168,7 +168,7 @@ class SpellViewer extends Component {
     const levels = ['cantrip', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th',
                     '8th', '9th']
     return (
-      <select value={this.props.state.level}
+      <select value={this.props.state.filters.level}
         onChange={this.handleFilterChange('level')}
       >
         <option value="">--Any level--</option>
@@ -181,7 +181,7 @@ class SpellViewer extends Component {
     const schools = ['Abjuration', 'Conjuration', 'Divination', 'Enchantment',
                      'Evocation', 'Illusion', 'Necromancy', 'Transmutation']
     return (
-      <select value={this.props.state.school}
+      <select value={this.props.state.filters.school}
         onChange={this.handleFilterChange('school')}
       >
         <option value="">--Any school--</option>
@@ -242,6 +242,7 @@ class SpellViewer extends Component {
     if (!this.props.state) {
       return <div>Loading...</div>
     }
+    console.log(this.props.state)
     const spells = this.groupedSpells()
     const { baseUrl } = this.props
     return (
