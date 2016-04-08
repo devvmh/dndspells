@@ -3,6 +3,7 @@ import SpellAssigner from './SpellAssigner'
 import SpellViewer from './SpellViewer'
 import _ from 'lodash'
 
+const STATE_VERSION = 1
 const BASE_URL = `${window.location.protocol}//${window.location.host}`
 const API = `${BASE_URL}/api`
 const tabs = {
@@ -22,6 +23,7 @@ class Root extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      STATE_VERSION,
       spells: this.props.spells,
       tabIndex: 1,
       authenticated: false,
@@ -30,18 +32,21 @@ class Root extends Component {
   }
 
   componentWillMount = () => {
-    const newState = JSON.parse(localStorage.getItem('state')) || this.state
+    const savedState = JSON.parse(localStorage.getItem('state'))
+    const newState = (
+      savedState && savedState.STATE_VERSION === STATE_VERSION
+        ? savedState
+        : this.state
+    )
     newState.spells = window.spells
     if (tabs[newState.tabIndex].needs_auth && !newState.authenticated) {
       console.log("adjusting tab index")
       newState.tabIndex = 1
     }
-    console.log(newState.authenticated)
     this.lsSetState(newState)
   }
 
   lsSetState = state => {
-    console.log(state)
     localStorage.setItem('state', JSON.stringify(_.omit(state, ['spells'])))
     this.setState(state)
   }
@@ -49,17 +54,14 @@ class Root extends Component {
   toggleAuthenticated = () => {
     const newState = this.state
     newState.authenticated = !this.state.authenticated
-    console.log(newState.authenticated)
     this.lsSetState(newState)
   }
 
   handleTabChange = tabIndex => () => {
     if (!(tabIndex.toString() in tabs)) {
-      console.log('1')
       return
     }
     if (tabs[tabIndex].needs_auth && !this.state.authenticated) {
-      console.log('2')
       return
     }
     const newState = this.state
