@@ -18,11 +18,12 @@ class SpellViewer extends Component {
           level: "",
           school: ""
         },
-        groupBy: {
-          level: true,
-          school: false
+        checkboxes: {
+          showFullDescriptions: false,
+          groupByLevel: true,
+          groupBySchool: false,
+          ritualOnly: false
         },
-        showFullDescriptions: false,
         expandedSpell: null
       })
     }
@@ -48,20 +49,13 @@ class SpellViewer extends Component {
     this.props.changeTabState(newState)
   }
 
-  handleGroupByChange = field => e => {
+  handleCheckboxChange = field => e => {
     this.props.changeTabState({
       ...this.props.state,
-      groupBy: {
-        ...this.props.state.groupBy,
+      checkboxes: {
+        ...this.props.state.checkboxes,
         [field]: !!e.target.checked
       }
-    })
-  }
-
-  handleShowDescChange = e => {
-    this.props.changeTabState({
-      ...this.props.state,
-      showFullDescriptions: e.target.checked
     })
   }
 
@@ -77,21 +71,23 @@ class SpellViewer extends Component {
     return _.filter(spells, spell => spell.level === level)
   }
 
-  filterComponents = spells => {
-    // TODO
-    return spells
-  }
-
   filterSchool = spells => {
     const { school } = this.props.state.filters
     if (school === "") return spells
     return _.filter(spells, spell => spell.school === school)
   }
 
+  filterRitual = spells => {
+    if (!this.props.state.checkboxes.ritualOnly) {
+      return spells
+    }
+    return _.filter(spells, spell => !!spell.ritual)
+  }
+
   filteredSpells = () => {
     return (
+      this.filterRitual(
       this.filterSchool(
-      this.filterComponents(
       this.filterLevel(
       this.filterClass(
         this.props.spells))))
@@ -99,30 +95,30 @@ class SpellViewer extends Component {
   }
 
   groupedSpells = () => {
-    const { level, school } = this.props.state.groupBy
-    if (level && school) {
+    const { groupByLevel, groupBySchool } = this.props.state.checkboxes
+    if (groupByLevel && groupBySchool) {
       const byLevel = _.groupBy(this.filteredSpells(), 'level')
       Object.keys(byLevel).forEach(level => {
         byLevel[level] = _.groupBy(byLevel[level], 'school')
       })
       return byLevel // internal values now further grouped by school
     }
-    if (level) {
+    if (groupByLevel) {
       return _.groupBy(this.filteredSpells(), 'level')
     }
-    if (school) {
+    if (groupBySchool) {
       return _.groupBy(this.filteredSpells(), 'school')
     }
     return { all: this.filteredSpells() }
   }
 
   groupedSpellKeys = () => {
-    const { level, school } = this.props.state.groupBy
+    const { groupByLevel, groupBySchool } = this.props.state.checkboxes
     const levels = ['cantrip', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th',
                     '8th', '9th']
     const schools = ['Abjuration', 'Conjuration', 'Divination', 'Enchantment',
                      'Evocation', 'Illusion', 'Necromancy', 'Transmutation']
-    if (level && school) {
+    if (groupByLevel && groupBySchool) {
       const keys = []
       levels.forEach(level => {
         schools.forEach(school => {
@@ -131,22 +127,22 @@ class SpellViewer extends Component {
       })
       return keys
     }
-    if (level) return levels
-    if (school) return schools
+    if (groupByLevel) return levels
+    if (groupBySchool) return schools
     return ['all']
   }
 
   groupedSpellHeading = (key) => {
-    const { level, school } = this.props.state.groupBy
+    const { groupByLevel, groupBySchool } = this.props.state.checkboxes
     const levelHeading = key => (
       key === 'cantrip' ? 'Cantrips' : `${key} Level Spells`
     )
-    if (level && school) {
+    if (groupByLevel && groupBySchool) {
       const [key1, key2] = key.split('.')
       return `${levelHeading(key1)} - ${key2}`
     }
-    if (level) return levelHeading(key)
-    if (school) return key
+    if (groupByLevel) return levelHeading(key)
+    if (groupBySchool) return key
     return 'All Spells (ungrouped)'
   }
 
@@ -195,15 +191,15 @@ class SpellViewer extends Component {
       <div>
         <label>
           <input type="checkbox"
-            checked={this.props.state.groupBy.level}
-            onChange={this.handleGroupByChange('level')}
+            checked={this.props.state.checkboxes.groupByLevel}
+            onChange={this.handleCheckboxChange('level')}
           />
           Group by Level
         </label>
         <label>
           <input type="checkbox"
-            checked={this.props.state.groupBy.school}
-            onChange={this.handleGroupByChange('school')}
+            checked={this.props.state.checkboxes.groupBySchool}
+            onChange={this.handleCheckboxChange('school')}
           />
           Group By School
         </label>
@@ -216,17 +212,24 @@ class SpellViewer extends Component {
       <div>
         <label>
           <input type="checkbox"
-            checked={this.props.state.showFullDescriptions}
-            onChange={this.handleShowDescChange}
+            checked={this.props.state.checkboxes.showFullDescriptions}
+            onChange={this.handleCheckboxChange('showFullDescriptions')}
           />
           Show full descriptions
+        </label>
+        <label>
+          <input type="checkbox"
+            checked={this.props.state.checkboxes.ritualOnly}
+            onChange={this.handleCheckboxChange('ritualOnly')}
+          />
+          Ritual Spells Only
         </label>
       </div>
     )
   }
 
   renderSpellDescription = spell => {
-    if (this.props.state.showFullDescriptions || 
+    if (this.props.state.checkboxes.showFullDescriptions || 
         this.props.state.expandedSpell === spell.id) {
       return `<p><strong>Casting</strong>: ${spell.casting_time}<br/>` +
         `<strong>Range</strong>: ${spell.range}<br/>` +
@@ -277,7 +280,7 @@ class SpellViewer extends Component {
                       )}</td>
                       <td>{spell.classes.join(", ")}</td>
                       <td>{spell.level}</td>
-                      <td>{spell.school}</td>
+                      <td>{spell.school}{!!spell.ritual ? ' (ritual)' : ''}</td>
                     </tr>
                   ), (
                     <tr key={`${spell.id}-row2`}
@@ -315,11 +318,12 @@ SpellViewer.propTypes = ({
       level: PropTypes.string,
       school: PropTypes.string
     }),
-    groupBy: PropTypes.shape({
-      level: PropTypes.bool,
-      school: PropTypes.bool
+    checkboxes: PropTypes.shape({
+      groupByLevel: PropTypes.bool,
+      groupBySchool: PropTypes.bool,
+      showFullDescriptions: PropTypes.bool,
+      ritualOnly: PropTypes.bool
     }),
-    showFullDescriptions: PropTypes.bool,
     expandedSpell: PropTypes.number
   })
 })
