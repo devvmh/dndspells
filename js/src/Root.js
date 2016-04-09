@@ -3,7 +3,7 @@ import SpellAssigner from './SpellAssigner'
 import SpellViewer from './SpellViewer'
 import _ from 'lodash'
 
-const STATE_VERSION = 1
+const STATE_VERSION = 2
 const BASE_URL = `${window.location.protocol}//${window.location.host}`
 const API = `${BASE_URL}/api`
 const tabs = {
