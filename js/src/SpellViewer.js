@@ -192,14 +192,14 @@ class SpellViewer extends Component {
         <label>
           <input type="checkbox"
             checked={this.props.state.checkboxes.groupByLevel}
-            onChange={this.handleCheckboxChange('level')}
+            onChange={this.handleCheckboxChange('groupByLevel')}
           />
           Group by Level
         </label>
         <label>
           <input type="checkbox"
             checked={this.props.state.checkboxes.groupBySchool}
-            onChange={this.handleCheckboxChange('school')}
+            onChange={this.handleCheckboxChange('groupBySchool')}
           />
           Group By School
         </label>
