@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import SpellAssigner from './SpellAssigner'
 import SpellFilterer from './SpellFilterer'
+import SpellTextSearch from './SpellTextSearch'
 import _ from 'lodash'
 
 const STATE_VERSION = 2
@@ -16,13 +17,12 @@ const tabs = {
     name: "Spell Assigner",
     TabComponent: SpellAssigner,
     needs_auth: true
+  },
+  3: {
+    name: "Search spells by name",
+    TabComponent: SpellTextSearch,
+    needs_auth: false
   }
-//  },
-//  3: {
-//    name: "Search spells by name",
-//    TabComponent: TextSearch,
-//    needs_auth: false
-//  }
 }
 
 class Root extends Component {

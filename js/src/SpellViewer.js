@@ -70,7 +70,10 @@ class SpellViewer extends Component {
 }
 
 SpellViewer.propTypes = ({
-  groupedSpells: PropTypes.objectOf(PropTypes.array),
+  groupedSpells: PropTypes.oneOfType([
+    PropTypes.objectOf(PropTypes.objectOf(PropTypes.array)),
+    PropTypes.objectOf(PropTypes.array)
+  ]),
   groupedSpellHeadings: PropTypes.array, // [key, heading]
   onExpandSpell: PropTypes.func,
   authenticated: PropTypes.bool,

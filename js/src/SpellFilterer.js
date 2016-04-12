@@ -226,19 +226,6 @@ class SpellFilterer extends Component {
     )
   }
 
-  renderSpellDescription = spell => {
-    if (this.props.state.checkboxes.showFullDescriptions || 
-        this.props.state.expandedSpell === spell.id) {
-      return `<p><strong>Casting</strong>: ${spell.casting_time}<br/>` +
-        `<strong>Range</strong>: ${spell.range}<br/>` +
-        `<strong>Components</strong>: ${spell.components}<br/>` +
-        `<strong>Duration</strong>: ${spell.duration}</p>` +
-        spell.description
-    } else {
-      return `${spell.description.substring(0, 90)}...`.replace('<p>', '')
-    }
-  }
-
   render = () => {
     if (!this.props.state) {
       return <div>Loading...</div>
