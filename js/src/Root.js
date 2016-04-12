@@ -17,12 +17,12 @@ const tabs = {
     name: "Search spells",
     TabComponent: SpellTextSearch,
     needs_auth: false
-  }
+  },
   3: {
     name: "Spell Assigner",
     TabComponent: SpellAssigner,
     needs_auth: true
-  },
+  }
 }
 
 class Root extends Component {
