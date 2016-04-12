@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import SpellAssigner from './SpellAssigner'
-import SpellViewer from './SpellViewer'
+import SpellFilterer from './SpellFilterer'
 import _ from 'lodash'
 
 const STATE_VERSION = 2
@@ -8,8 +8,8 @@ const BASE_URL = `${window.location.protocol}//${window.location.host}`
 const API = `${BASE_URL}/api`
 const tabs = {
   1: {
-    name: "Spell Viewer",
-    TabComponent: SpellViewer,
+    name: "Filter and group spells",
+    TabComponent: SpellFilterer,
     needs_auth: false
   },
   2: {
@@ -17,6 +17,12 @@ const tabs = {
     TabComponent: SpellAssigner,
     needs_auth: true
   }
+//  },
+//  3: {
+//    name: "Search spells by name",
+//    TabComponent: TextSearch,
+//    needs_auth: false
+//  }
 }
 
 class Root extends Component {
@@ -122,11 +128,12 @@ class Root extends Component {
       <div>
         {Object.keys(filteredTabs).map(index => {
           const tab = tabs[index]
-          const active = tabIndex.toString() === index ? 'btn-default' : 'btn-primary'
+          const fontWeight = tabIndex.toString() === index ? 'bold' : 'normal'
           return (
             <a onClick={this.handleTabChange(index)}
               key={index}
-              className={`btn ${active}`}
+              className="btn btn-default"
+              style={{ fontWeight }}
             >
               {tab.name}
             </a>
