@@ -4,7 +4,7 @@ import SpellFilterer from './SpellFilterer'
 import SpellTextSearch from './SpellTextSearch'
 import _ from 'lodash'
 
-const STATE_VERSION = 2
+const STATE_VERSION = 3
 const BASE_URL = `${window.location.protocol}//${window.location.host}`
 const API = `${BASE_URL}/api`
 const tabs = {
@@ -14,15 +14,15 @@ const tabs = {
     needs_auth: false
   },
   2: {
+    name: "Search spells",
+    TabComponent: SpellTextSearch,
+    needs_auth: false
+  }
+  3: {
     name: "Spell Assigner",
     TabComponent: SpellAssigner,
     needs_auth: true
   },
-  3: {
-    name: "Search spells by name",
-    TabComponent: SpellTextSearch,
-    needs_auth: false
-  }
 }
 
 class Root extends Component {
