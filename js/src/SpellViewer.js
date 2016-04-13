@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import _ from 'lodash'
 
-const EXPAND_NONE = -1
-const EXPAND_ALL = 0
+export const EXPAND_NONE = -1
+export const EXPAND_ALL = 0
 
 class SpellViewer extends Component {
   renderSpellDescription = spell => {

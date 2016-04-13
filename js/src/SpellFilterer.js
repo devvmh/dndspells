@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import _ from 'lodash'
-import SpellViewer from './SpellViewer'
+import SpellViewer, { EXPAND_ALL, EXPAND_NONE } from './SpellViewer'
 
 class SpellFilterer extends Component {
   componentDidMount = () => {
@@ -232,6 +232,9 @@ class SpellFilterer extends Component {
     }
     const spells = this.groupedSpells()
     const { baseUrl } = this.props
+    const { expandedSpell } = this.props.state || EXPAND_NONE
+    const showAll = this.props.state.checkboxes.showFullDescriptions
+
     return (
       <div>
         {this.renderFilters()}
@@ -239,7 +242,7 @@ class SpellFilterer extends Component {
         {this.renderMiscChoices()}
         <SpellViewer groupedSpells={this.groupedSpells()}
           groupedSpellHeadings={this.groupedSpellHeadings()}
-          expandedSpell={this.props.state.expandedSpell}
+          expandedSpell={showAll ? EXPAND_ALL : expandedSpell}
           onExpandSpell={this.handleExpandSpell}
           baseUrl={this.props.baseUrl}
           authenticated={this.props.authenticated}
