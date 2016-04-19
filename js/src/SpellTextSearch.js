@@ -32,7 +32,7 @@ class SpellTextSearch extends Component {
   filteredSpells = () => {
     const query = _.lowerCase(this.props.state.query)
     const { searchDesc } = this.props.state
-    if (query === "") return this.props.spells
+    if (query.length < 3) return this.props.spells
     return _.filter(this.props.spells, spell => {
       return _.lowerCase(spell.name).indexOf(query) !== -1 ||
         (searchDesc && query.length > 2 && _.lowerCase(spell.description).indexOf(query) !== -1)
@@ -51,7 +51,7 @@ class SpellTextSearch extends Component {
     return (
       <div>
         <label>
-          Search descriptions too (min 3 chars): 
+          Search descriptions too: 
           <input type="checkbox"
             checked={this.props.state.searchDesc}
             onChange={this.handleChange('searchDesc')}
