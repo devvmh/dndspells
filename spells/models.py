@@ -34,6 +34,7 @@ class Spell(Model):
   level = CharField(max_length=255, choices=LEVELS)
   school = CharField(max_length=255, choices=SCHOOLS)
   ritual = BooleanField(default=False)
+  concentration = BooleanField(default=False)
   classes = ManyToManyField('CasterClass', blank=True)
   casting_time = CharField(max_length=255)
   range = CharField(max_length=255)

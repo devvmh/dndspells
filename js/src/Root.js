@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import SpellAssigner from './SpellAssigner'
 import SpellFilterer from './SpellFilterer'
 import SpellTextSearch from './SpellTextSearch'
+import SpellBooleanEditor from './SpellBooleanEditor'
 import _ from 'lodash'
 
 const STATE_VERSION = 3
@@ -9,18 +10,23 @@ const BASE_URL = `${window.location.protocol}//${window.location.host}`
 const API = `${BASE_URL}/api`
 const tabs = {
   1: {
-    name: "Filter and group spells",
+    name: 'Filter and group spells',
     TabComponent: SpellFilterer,
     needs_auth: false
   },
   2: {
-    name: "Search spells",
+    name: 'Search spells',
     TabComponent: SpellTextSearch,
     needs_auth: false
   },
   3: {
-    name: "Spell Assigner",
+    name: 'Edit class assignments',
     TabComponent: SpellAssigner,
+    needs_auth: true
+  },
+  4: {
+    name: 'Edit true/false values',
+    TabComponent: SpellBooleanEditor,
     needs_auth: true
   }
 }

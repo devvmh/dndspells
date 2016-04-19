@@ -8,10 +8,11 @@ class SpellViewer extends Component {
   renderSpellDescription = spell => {
     if (this.props.expandedSpell === EXPAND_ALL ||
         this.props.expandedSpell === spell.id) {
+      const concentration = spell.concentration ? 'Concentration, ' : ''
       return `<p><strong>Casting</strong>: ${spell.casting_time}<br/>` +
         `<strong>Range</strong>: ${spell.range}<br/>` +
         `<strong>Components</strong>: ${spell.components}<br/>` +
-        `<strong>Duration</strong>: ${spell.duration}</p>` +
+        `<strong>Duration</strong>: ${concentration} ${spell.duration}</p>` +
         spell.description
     } else {
       return `${spell.description.substring(0, 90)}...`.replace('<p>', '')
