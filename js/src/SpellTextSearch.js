@@ -32,7 +32,7 @@ class SpellTextSearch extends Component {
   filteredSpells = () => {
     const query = _.lowerCase(this.props.state.query)
     const { searchDesc } = this.props.state
-    if (query.length < 3) return this.props.spells
+    if (query.length < 3) return []
     return _.filter(this.props.spells, spell => {
       return _.lowerCase(spell.name).indexOf(query) !== -1 ||
         (searchDesc && query.length > 2 && _.lowerCase(spell.description).indexOf(query) !== -1)
