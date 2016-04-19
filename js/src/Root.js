@@ -6,8 +6,7 @@ import SpellBooleanEditor from './SpellBooleanEditor'
 import _ from 'lodash'
 
 const STATE_VERSION = 3
-const BASE_URL = `${window.location.protocol}//${window.location.host}`
-const API = `${BASE_URL}/api`
+const API = '/api'
 const tabs = {
   1: {
     name: 'Filter and group spells',
@@ -97,7 +96,7 @@ class Root extends Component {
 
   checkAuthentication = () => {
     const self = this
-    fetch(`${API}/spells/2/`, {
+    fetch(`${API}/spells/1/`, {
       method: 'PATCH',
       credentials: 'same-origin',
       headers: {
