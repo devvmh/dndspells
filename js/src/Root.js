@@ -92,7 +92,7 @@ class Root extends Component {
         }
       }
     }
-    throw new Error(`Couldn't retrieve cookie with key '${key}'`)
+    return null;
   }
 
   checkAuthentication = () => {
