@@ -11,23 +11,30 @@ class SpellFilterer extends Component {
     this.checkState(nextProps)
   }
 
+  defaultTabState = {
+    filters: {
+      casterClass: "",
+      level: "",
+      school: "",
+      ritual: "",
+      concentration: ""
+    },
+    checkboxes: {
+      showFullDescriptions: false,
+      groupByLevel: true,
+      groupBySchool: false,
+    },
+    expandedSpell: null
+  }
+
   checkState = props => {
     if (!props.state) {
-      this.props.changeTabState({
-        filters: {
-          casterClass: "",
-          level: "",
-          school: "",
-          ritual: ""
-        },
-        checkboxes: {
-          showFullDescriptions: false,
-          groupByLevel: true,
-          groupBySchool: false,
-        },
-        expandedSpell: null
-      })
+      this.props.changeTabState(this.defaultTabState)
     }
+  }
+
+  handleResetOptions = () => {
+    this.props.changeTabState(this.defaultTabState)
   }
 
   handleFilterChange = field => e => {
@@ -88,13 +95,24 @@ class SpellFilterer extends Component {
     return spells
   }
 
+  filterConcentration = spells => {
+    if (this.props.state.filters.concentration == "true") {
+      return _.filter(spells, spell => !!spell.concentration)
+    }
+    if (this.props.state.filters.concentration == "false") {
+      return _.filter(spells, spell => !spell.concentration)
+    }
+    return spells
+  }
+
   filteredSpells = () => {
     return (
+      this.filterConcentration(
       this.filterRitual(
       this.filterSchool(
       this.filterLevel(
       this.filterClass(
-        this.props.spells))))
+        this.props.spells)))))
     )
   }
 
@@ -187,6 +205,13 @@ class SpellFilterer extends Component {
           <option value="true">Ritual spells only</option>
           <option value="false">Exclude ritual spells</option>
         </select>
+        <select value={this.props.state.filters.concentration}
+          onChange={this.handleFilterChange('concentration')}
+        >
+          <option value="">-- Concentration? --</option>
+          <option value="true">Concentration spells only</option>
+          <option value="false">Exclude concentration spells</option>
+        </select>
       </div>
     )
   }
@@ -222,6 +247,8 @@ class SpellFilterer extends Component {
           />
           Show full descriptions
         </label>
+        <br />
+        <button onClick={this.handleResetOptions}>Reset all options</button>
       </div>
     )
   }
