@@ -90,6 +90,19 @@ class Root extends Component {
       }
     })
   }
+
+  getCookie = key => {
+    if (document.cookie && document.cookie != '') {
+      var cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i += 1) {
+        const cookie = _.trim(cookies[i]);
+        if (cookie.substring(0, key.length + 1) == (key + '=')) {
+          return decodeURIComponent(cookie.substring(key.length + 1));
+        }
+      }
+    }
+    throw new Error(`Couldn't retrieve cookie with key '${key}'`)
+  }
   
   handleCreateSpell = spell => {
     alert("TODO implement")
@@ -99,7 +112,9 @@ class Root extends Component {
     const self = this
     fetch(`${API}/spells/${id}/`, {
       method: 'PATCH',
+      credentials: 'same-origin',
       headers: {
+        'X-CSRFToken': this.getCookie('csrftoken'),
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
