@@ -51,22 +51,13 @@ class Root extends Component {
         : this.state
     )
     newState.spells = window.spells
-    if (tabs[newState.tabIndex].needs_auth && !newState.authenticated) {
-      console.log("adjusting tab index")
-      newState.tabIndex = 1
-    }
     this.lsSetState(newState)
+    this.checkAuthentication()
   }
 
   lsSetState = state => {
     localStorage.setItem('state', JSON.stringify(_.omit(state, ['spells'])))
     this.setState(state)
-  }
-
-  toggleAuthenticated = () => {
-    const newState = this.state
-    newState.authenticated = !this.state.authenticated
-    this.lsSetState(newState)
   }
 
   handleTabChange = tabIndex => () => {
@@ -103,11 +94,32 @@ class Root extends Component {
     }
     throw new Error(`Couldn't retrieve cookie with key '${key}'`)
   }
-  
-  handleCreateSpell = spell => {
-    alert("TODO implement")
-  }
 
+  checkAuthentication = () => {
+    const self = this
+    fetch(`${API}/spells/2/`, {
+      method: 'PATCH',
+      credentials: 'same-origin',
+      headers: {
+        'X-CSRFToken': this.getCookie('csrftoken'),
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name: 'Aid' })
+    }).then(response => {
+      const newState = self.state
+      if (response.ok) {
+        newState.authenticated = true
+      } else {
+        newState.authenticated = false
+        if (tabs[newState.tabIndex].needs_auth) {
+          newState.tabIndex = 1
+        }
+      }
+      self.lsSetState(newState)
+    })
+  }
+  
   handleUpdateSpell = (id, data) => {
     const self = this
     fetch(`${API}/spells/${id}/`, {
@@ -136,10 +148,6 @@ class Root extends Component {
     })
   }
 
-  handleDeleteSpell = id => {
-    alert("TODO implement")
-  }
-
   render = () => {
     const { tabIndex } = this.state
     const { needs_auth, TabComponent } = tabs[tabIndex]
@@ -161,7 +169,7 @@ class Root extends Component {
           )
         })}
         <span style={{ color: 'white' }}
-          onClick={this.toggleAuthenticated}
+          onClick={this.checkAuthentication}
         >
           .
         </span>
@@ -169,9 +177,7 @@ class Root extends Component {
           classes={classes}
           authenticated={this.state.authenticated}
           baseUrl={BASE_URL}
-          createSpell={this.handleCreateSpell}
           updateSpell={this.handleUpdateSpell}
-          deleteSpell={this.handleDeleteSpell}
           changeTabState={this.handleChangeTabState(tabIndex)}
           state={this.state.tabState[tabIndex]}
         />
