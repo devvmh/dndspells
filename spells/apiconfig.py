@@ -5,8 +5,9 @@ from .models import *
 class SpellSerializer(ModelSerializer):
   class Meta:
     model = Spell
-    fields = ('id', 'name', 'level', 'school', 'classes', 'casting_time',
-              'range', 'components', 'duration', 'description')
+    fields = ('id', 'name', 'level', 'school', 'ritual', 'concentration',
+              'classes', 'casting_time', 'range', 'components', 'duration',
+              'description')
 
 class SpellViewSet(ModelViewSet):
   queryset = Spell.objects.all()
