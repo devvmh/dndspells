@@ -123,11 +123,7 @@ class SpellAssigner extends Component {
 SpellAssigner.propTypes = ({
   spells: PropTypes.arrayOf(PropTypes.object),
   classes: PropTypes.arrayOf(PropTypes.string),
-  authenticated: PropTypes.bool,
-  baseUrl: PropTypes.string,
-  createSpell: PropTypes.func,
   updateSpell: PropTypes.func,
-  deleteSpell: PropTypes.func,
   changeTabState: PropTypes.func,
   state: PropTypes.shape({
     currentClass: PropTypes.string,

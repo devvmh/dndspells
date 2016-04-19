@@ -257,9 +257,6 @@ SpellFilterer.propTypes = ({
   classes: PropTypes.arrayOf(PropTypes.string),
   authenticated: PropTypes.bool,
   baseUrl: PropTypes.string,
-  createSpell: PropTypes.func,
-  updateSpell: PropTypes.func,
-  deleteSpell: PropTypes.func,
   changeTabState: PropTypes.func,
   state: PropTypes.shape({
     filters: PropTypes.shape({
