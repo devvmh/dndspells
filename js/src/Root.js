@@ -6,6 +6,7 @@ import SpellBooleanEditor from './SpellBooleanEditor'
 import _ from 'lodash'
 
 const STATE_VERSION = 3
+const BASE_URL = `${window.location.protocol}//${window.location.host}`
 const API = '/api'
 const tabs = {
   1: {

@@ -25,7 +25,7 @@ class SpellBooleanEditor extends Component {
                 <input type="checkbox"
                   style={{ paddingLeft: '2em' }}
                   checked={spell.concentration}
-                  onChange={this.handleChange(spell, 'ritual')}
+                  onChange={this.handleChange(spell, 'concentration')}
                 />
               </div>
             </div>
