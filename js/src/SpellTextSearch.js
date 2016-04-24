@@ -86,7 +86,7 @@ class SpellTextSearch extends Component {
           groupedSpellHeadings={this.groupedSpellHeadings()}
           expandedSpell={0}
           onExpandSpell={() => null}
-          baseUrl={this.props.baseUrl}
+          updateSpell={this.props.updateSpell}
           authenticated={this.props.authenticated}
         />
       </div>
@@ -98,7 +98,6 @@ SpellTextSearch.propTypes = ({
   spells: PropTypes.arrayOf(PropTypes.object),
   classes: PropTypes.arrayOf(PropTypes.string),
   authenticated: PropTypes.bool,
-  baseUrl: PropTypes.string,
   updateSpell: PropTypes.func,
   changeTabState: PropTypes.func,
   state: PropTypes.shape({

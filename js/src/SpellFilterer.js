@@ -258,7 +258,6 @@ class SpellFilterer extends Component {
       return <div>Loading...</div>
     }
     const spells = this.groupedSpells()
-    const { baseUrl } = this.props
     const { expandedSpell } = this.props.state || EXPAND_NONE
     const showAll = this.props.state.checkboxes.showFullDescriptions
 
@@ -271,7 +270,7 @@ class SpellFilterer extends Component {
           groupedSpellHeadings={this.groupedSpellHeadings()}
           expandedSpell={showAll ? EXPAND_ALL : expandedSpell}
           onExpandSpell={this.handleExpandSpell}
-          baseUrl={this.props.baseUrl}
+          updateSpell={this.props.updateSpell}
           authenticated={this.props.authenticated}
         />
       </div>
@@ -283,8 +282,8 @@ SpellFilterer.propTypes = ({
   spells: PropTypes.arrayOf(PropTypes.object),
   classes: PropTypes.arrayOf(PropTypes.string),
   authenticated: PropTypes.bool,
-  baseUrl: PropTypes.string,
   changeTabState: PropTypes.func,
+  updateSpell: PropTypes.func,
   state: PropTypes.shape({
     filters: PropTypes.shape({
       casterClass: PropTypes.string,

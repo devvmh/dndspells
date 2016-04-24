@@ -6,7 +6,6 @@ import SpellBooleanEditor from './SpellBooleanEditor'
 import _ from 'lodash'
 
 const STATE_VERSION = 3
-const BASE_URL = `${window.location.protocol}//${window.location.host}`
 const API = '/api'
 const tabs = {
   1: {
@@ -176,7 +175,6 @@ class Root extends Component {
         <TabComponent spells={this.state.spells}
           classes={classes}
           authenticated={this.state.authenticated}
-          baseUrl={BASE_URL}
           updateSpell={this.handleUpdateSpell}
           changeTabState={this.handleChangeTabState(tabIndex)}
           state={this.state.tabState[tabIndex]}

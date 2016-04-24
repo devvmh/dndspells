@@ -1,27 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import _ from 'lodash'
+import SpellDescription from './SpellDescription'
 
 export const EXPAND_NONE = -1
 export const EXPAND_ALL = 0
 
 class SpellViewer extends Component {
-  renderSpellDescription = spell => {
-    if (this.props.expandedSpell === EXPAND_ALL ||
-        this.props.expandedSpell === spell.id) {
-      const concentration = spell.concentration ? 'Concentration, ' : ''
-      return `<p><strong>Casting</strong>: ${spell.casting_time}<br/>` +
-        `<strong>Range</strong>: ${spell.range}<br/>` +
-        `<strong>Components</strong>: ${spell.components}<br/>` +
-        `<strong>Duration</strong>: ${concentration} ${spell.duration}</p>` +
-        spell.description
-    } else {
-      return `${spell.description.substring(0, 90)}...`.replace('<p>', '')
-    }
-  }
-
   render = () => {
     const spells = this.props.groupedSpells
-    const { baseUrl } = this.props
     return (
       <table className="table table-striped">
         <thead><tr>
@@ -38,17 +24,23 @@ class SpellViewer extends Component {
             <tbody key={key}>
               <tr><th colSpan="4">{heading}</th></tr>
               {_.flatMap(spellGroup, spell => {
+                const expanded = this.props.expandedSpell === EXPAND_ALL ||
+                                 this.props.expandedSpell === spell.id
                 return [(
                   <tr key={`${spell.id}-row1`}
                     className={`spell-${spell.id}`}
                     onClick={this.props.onExpandSpell(spell.id)}
                   >
-                    <td>{!this.props.authenticated ? spell.name : (
-                      <a href={`${baseUrl}/admin/spells/spell/${spell.id}/`}>{spell.name}</a>
-                    )}</td>
+                    <td>
+                    {!this.props.authenticated ? spell.name : (
+                        <a href={`/admin/spells/spell/${spell.id}/`}>
+                          {spell.name}
+                        </a>
+                      )
+                    }</td>
                     <td>{spell.classes.join(", ")}</td>
                     <td>{spell.level}</td>
-                    <td>{spell.school}{!!spell.ritual ? ' (ritual)' : ''}</td>
+                    <td>{spell.school}{spell.ritual ? ' (ritual)' : ''}</td>
                   </tr>
                 ), (
                   <tr key={`${spell.id}-row2`}
@@ -56,9 +48,13 @@ class SpellViewer extends Component {
                     onClick={this.props.onExpandSpell(spell.id)}
                   >
                     <td></td>
-                    <td dangerouslySetInnerHTML={{__html: this.renderSpellDescription(spell)}}
-                      colSpan="3"
-                    />
+                    <td colSpan="3">
+                      <SpellDescription spell={spell}
+                        expanded={expanded}
+                        authenticated={this.props.authenticated}
+                        updateSpell={this.props.updateSpell}
+                      />
+                    </td>
                   </tr>
                 )]
               })}
@@ -77,8 +73,8 @@ SpellViewer.propTypes = ({
   ]),
   groupedSpellHeadings: PropTypes.array, // [key, heading]
   onExpandSpell: PropTypes.func,
+  updateSpell: PropTypes.func,
   authenticated: PropTypes.bool,
-  baseUrl: PropTypes.string
 })
 
 export default SpellViewer
