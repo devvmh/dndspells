@@ -77,11 +77,16 @@ class SpellDescription extends Component {
     }
   }
 
+  abbreviate = desc => {
+    // strip html tags - won't handle attributes though
+    return desc.substring(0, 90).replace(/<\/?\w+>/g, '')
+  }
+
   render = () => {
     const { spell, expanded, updateSpell } = this.props
     if (!expanded) {
       return <div><p>
-        {`${spell.description.substring(0, 90)}...`.replace('<p>', '')}
+        {`${this.abbreviate(spell.description)}...`}
       </p></div>
     }
 
