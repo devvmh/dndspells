@@ -71,6 +71,7 @@ class SpellTextSearch extends Component {
             onChange={this.handleChange('query')}
           />
         </label>
+        <br />
       </div>
     )
   }
@@ -78,6 +79,8 @@ class SpellTextSearch extends Component {
   render = () => {
     if (!this.props.state) return null
     const spells = this.groupedSpells()
+    const searchShare = `${window.location.origin}?spell=${this.props.state.query}`
+
     return (
       <div>
         {this.renderTextSearch()}
@@ -89,6 +92,12 @@ class SpellTextSearch extends Component {
           updateSpell={this.props.updateSpell}
           authenticated={this.props.authenticated}
         />
+        {this.props.state.query ? (
+          <p>
+            Share this search:&nbsp;
+            <a href={searchShare}>{searchShare}</a>
+          </p>
+        ) : null}
       </div>
     )
   }

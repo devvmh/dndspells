@@ -4,6 +4,7 @@ import SpellFilterer from './SpellFilterer'
 import SpellTextSearch from './SpellTextSearch'
 import SpellBooleanEditor from './SpellBooleanEditor'
 import SavedSpellbook from './SavedSpellbook'
+import { getQueryParamByName } from './util'
 import _ from 'lodash'
 
 const STATE_VERSION = 3
@@ -56,6 +57,7 @@ class Root extends Component {
         : this.state
     )
     newState.spells = window.spells
+    Object.assign(newState, this.handleQueryParams(newState))
     this.lsSetState(newState)
     this.checkAuthentication()
   }
@@ -63,6 +65,16 @@ class Root extends Component {
   lsSetState = state => {
     localStorage.setItem('state', JSON.stringify(_.omit(state, ['spells'])))
     this.setState(state)
+  }
+
+  handleQueryParams = state => {
+    const spellName = getQueryParamByName('spell')
+    if (spellName) {
+      state.tabIndex = 2 // search spells
+      state.tabState[2].query = spellName
+    }
+
+    return state
   }
 
   handleTabChange = tabIndex => () => {
