@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react'
 import SpellFilterer from './SpellFilterer'
 import { Typeahead } from 'react-typeahead'
 
-class MySpellBook extends Component {
+class SavedSpellbook extends Component {
   componentDidMount = () => {
     this.checkState(this.props)
   }
@@ -103,7 +103,7 @@ class MySpellBook extends Component {
   }
 }
 
-MySpellBook.propTypes = {
+SavedSpellbook.propTypes = {
   spells: PropTypes.arrayOf(PropTypes.object),
   classes: PropTypes.arrayOf(PropTypes.string),
   authenticated: PropTypes.bool,
@@ -128,4 +128,4 @@ MySpellBook.propTypes = {
   })
 }
 
-export default MySpellBook
+export default SavedSpellbook

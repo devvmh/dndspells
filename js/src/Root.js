@@ -3,7 +3,7 @@ import SpellAssigner from './SpellAssigner'
 import SpellFilterer from './SpellFilterer'
 import SpellTextSearch from './SpellTextSearch'
 import SpellBooleanEditor from './SpellBooleanEditor'
-import MySpellBook from './MySpellBook'
+import SavedSpellbook from './SavedSpellbook'
 import _ from 'lodash'
 
 const STATE_VERSION = 3
@@ -30,8 +30,8 @@ const tabs = {
     needs_auth: true
   },
   5: {
-    name: 'Spellbook',
-    TabComponent: MySpellBook,
+    name: 'Saved Spellbook',
+    TabComponent: SavedSpellbook,
     needs_auth: false
   }
 }
