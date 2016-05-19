@@ -80,7 +80,10 @@ class SavedSpellbook extends Component {
       <div>
         <select onChange={this.handleSpellbookAdd}>
           <option>-- Add spell --</option>
-          {this.props.spells.map(spell => (
+          {this.props.spells.filter(spell => (
+            // only include spells not in spellbook
+            this.props.state.spellbook.indexOf(spell) === -1
+          )).map(spell => (
             <option key={spell.id} value={spell.id}>{spell.name}</option>
           ))}
         </select>
