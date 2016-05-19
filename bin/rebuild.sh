@@ -7,7 +7,7 @@ git pull
 
 python manage.py migrate
 
-(cd js && npm run build)
+(cd js && npm install && npm run build)
 
 python manage.py collectstatic --noinput
 
