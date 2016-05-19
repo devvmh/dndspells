@@ -28,20 +28,28 @@ class SavedSpellbook extends Component {
     this.props.changeTabState(newState)
   }
 
+  safeSpellbook = () => {
+    return this.props.state.spellbook.filter(spell => (
+      spell !== null && spell !== undefined
+    ))
+  }
+
   handleSpellbookAdd = e => {
-    const spellbook = this.props.state.spellbook
+    const spellbook = this.safeSpellbook()
     const spell = this.props.spells.filter(item => item.id == e.target.value).pop()
-    spellbook.push(spell)
+    if (spell) {
+      spellbook.push(spell)
+    }
     const newState = this.props.state
     newState.spellbook = spellbook
     this.props.changeTabState(newState)
   }
 
   handleSpellbookRemove = e => {
-    const spellbook = this.props.state.spellbook
+    const spellbook = this.safeSpellbook()
     const spell_id = e.target.value
     const newState = this.props.state
-    newState.spellbook = spellbook.filter(spell => spell.id != spell_id)
+    newState.spellbook = spellbook.filter(spell => !!spell && spell.id != spell_id)
     this.props.changeTabState(newState)
   }
 
@@ -60,17 +68,17 @@ class SavedSpellbook extends Component {
   renderSpellbookBackup = () => {
     return (
       <div>
-        <p>To backup your spellbook, copy this text to a file. You can paste it here to restore the backup later.</p>
+        <p>
+          Saving your spellbook in a browser is not very reliable. To backup
+          your spellbook, copy this text to a file. You can paste it here to
+          restore the backup later.
+        </p>
         <textarea onChange={this.handleBackupValueChange}
-          value={JSON.stringify(this.props.state.spellbook)}
+          value={JSON.stringify(this.safeSpellbook())}
         />
       </div>
     )
   }
-
-  // <Typeahead onOptionSelected={this.handleSpellbookAdd}
-  //   options={this.props.spells.map(spell => spell.name)}
-  // />
 
   render = () => {
     if (!this.props.state) {
@@ -81,15 +89,15 @@ class SavedSpellbook extends Component {
         <select onChange={this.handleSpellbookAdd}>
           <option>-- Add spell --</option>
           {this.props.spells.filter(spell => (
-            // only include spells not in spellbook
-            this.props.state.spellbook.indexOf(spell) === -1
-          )).map(spell => (
-            <option key={spell.id} value={spell.id}>{spell.name}</option>
+             // only include spells not in spellbook
+             this.props.state.spellbook.indexOf(spell) === -1
+           )).map(spell => (
+             <option key={spell.id} value={spell.id}>{spell.name}</option>
           ))}
         </select>
         <select onChange={this.handleSpellbookRemove}>
           <option>-- Remove spell --</option>
-          {this.props.state.spellbook.map(spell => (
+          {this.safeSpellbook().map(spell => (
             <option key={spell.id} value={spell.id}>{spell.name}</option>
           ))}
         </select>
