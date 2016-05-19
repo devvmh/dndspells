@@ -1,6 +1,5 @@
 import React, { PropTypes, Component } from 'react'
 import SpellFilterer from './SpellFilterer'
-import { Typeahead } from 'react-typeahead'
 
 class SavedSpellbook extends Component {
   componentDidMount = () => {
