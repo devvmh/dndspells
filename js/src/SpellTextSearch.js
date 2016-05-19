@@ -79,7 +79,7 @@ class SpellTextSearch extends Component {
   render = () => {
     if (!this.props.state) return null
     const spells = this.groupedSpells()
-    const searchShare = `${window.location.origin}?spell=${this.props.state.query}`
+    const searchShare = window.location.origin + '?spell=' + encodeURIComponent(this.props.state.query)
 
     return (
       <div>
@@ -95,7 +95,7 @@ class SpellTextSearch extends Component {
         {this.props.state.query ? (
           <p>
             Share this search:&nbsp;
-            <a href={searchShare}>{searchShare}</a>
+            <a href={searchShare}>{decodeURIComponent(searchShare)}</a>
           </p>
         ) : null}
       </div>
