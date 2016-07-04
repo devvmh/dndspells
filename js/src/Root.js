@@ -114,6 +114,7 @@ class Root extends Component {
 
   checkAuthentication = () => {
     const self = this
+    window.fetch = window.fetch || function() { return; } /* hack for safari */
     fetch(`${API}/spells/1/`, {
       method: 'PATCH',
       credentials: 'same-origin',
@@ -139,6 +140,7 @@ class Root extends Component {
   
   handleUpdateSpell = (id, data) => {
     const self = this
+    window.fetch = window.fetch || function() { return; } /* hack for safari */
     fetch(`${API}/spells/${id}/`, {
       method: 'PATCH',
       credentials: 'same-origin',
