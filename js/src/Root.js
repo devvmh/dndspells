@@ -114,57 +114,59 @@ class Root extends Component {
 
   checkAuthentication = () => {
     const self = this
-    window.fetch = window.fetch || function() { return; } /* hack for safari */
-    fetch(`${API}/spells/1/`, {
-      method: 'PATCH',
-      credentials: 'same-origin',
-      headers: {
-        'X-CSRFToken': this.getCookie('csrftoken'),
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name: 'Aid' })
-    }).then(response => {
-      const newState = self.state
-      if (response.ok) {
-        newState.authenticated = true
-      } else {
-        newState.authenticated = false
-        if (tabs[newState.tabIndex].needs_auth) {
-          newState.tabIndex = 1
+    if (window.fetch) {
+      fetch(`${API}/spells/1/`, {
+        method: 'PATCH',
+        credentials: 'same-origin',
+        headers: {
+          'X-CSRFToken': this.getCookie('csrftoken'),
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: 'Aid' })
+      }).then(response => {
+        const newState = self.state
+        if (response.ok) {
+          newState.authenticated = true
+        } else {
+          newState.authenticated = false
+          if (tabs[newState.tabIndex].needs_auth) {
+            newState.tabIndex = 1
+          }
         }
-      }
-      self.lsSetState(newState)
-    })
+        self.lsSetState(newState)
+      })
+    }
   }
   
   handleUpdateSpell = (id, data) => {
     const self = this
-    window.fetch = window.fetch || function() { return; } /* hack for safari */
-    fetch(`${API}/spells/${id}/`, {
-      method: 'PATCH',
-      credentials: 'same-origin',
-      headers: {
-        'X-CSRFToken': this.getCookie('csrftoken'),
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    }).then(response => {
-      return response.json()
-    }).then(data => {
-      const newState = self.state
-      newState.spells = self.state.spells.map(spell => {
-        if (spell.id === data.id) {
-          return data
-        }
-        return spell
+    if (window.fetch) {
+      fetch(`${API}/spells/${id}/`, {
+        method: 'PATCH',
+        credentials: 'same-origin',
+        headers: {
+          'X-CSRFToken': this.getCookie('csrftoken'),
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }).then(response => {
+        return response.json()
+      }).then(data => {
+        const newState = self.state
+        newState.spells = self.state.spells.map(spell => {
+          if (spell.id === data.id) {
+            return data
+          }
+          return spell
+        })
+        self.lsSetState(newState)
+      }).catch(error => {
+        console.error("updateSpell caught an error")
+        console.error(error)
       })
-      self.lsSetState(newState)
-    }).catch(error => {
-      console.error("updateSpell caught an error")
-      console.error(error)
-    })
+    }
   }
 
   render = () => {
