@@ -60,8 +60,8 @@ class Root extends Component {
     newState.spells = []
     Object.assign(newState, this.handleQueryParams(newState))
     this.lsSetState(newState)
-    this.checkAuthentication()
     this.fetchAllSpells()
+    this.checkAuthentication()
   }
 
   lsSetState = state => {
@@ -115,7 +115,6 @@ class Root extends Component {
   }
 
   checkAuthentication = () => {
-    const self = this
     window.fetch(`${API}/spells/1/`, {
       method: 'PATCH',
       credentials: 'same-origin',
@@ -126,7 +125,7 @@ class Root extends Component {
       },
       body: JSON.stringify({ name: 'Aid' })
     }).then(response => {
-      const newState = self.state
+      const newState = this.state
       if (response.ok) {
         newState.authenticated = true
       } else {
@@ -135,12 +134,11 @@ class Root extends Component {
           newState.tabIndex = 1
         }
       }
-      self.lsSetState(newState)
+      this.lsSetState(newState)
     })
   }
   
   handleUpdateSpell = (id, data) => {
-    const self = this
     window.fetch(`${API}/spells/${id}/`, {
       method: 'PATCH',
       credentials: 'same-origin',
@@ -153,14 +151,14 @@ class Root extends Component {
     }).then(response => {
       return response.json()
     }).then(payload => {
-      const newState = Object.assign({}, self.state)
-      newState.spells = self.state.spells.map(spell => {
+      const newState = Object.assign({}, this.state)
+      newState.spells = this.state.spells.map(spell => {
         if (spell.id === payload.id) {
           return payload
         }
         return spell
       })
-      self.lsSetState(newState)
+      this.lsSetState(newState)
     }, error => {
       console.error("updateSpell caught an error")
       console.error(error)
@@ -168,14 +166,13 @@ class Root extends Component {
   }
 
   fetchAllSpells = () => {
-    const self = this
     window.fetch(`${API}/spells.json`, {
       method: 'GET'
     }).then(response => {
       return response.json()
     }).then(payload => {
-      self.setState({
-        spells: self.state.spells.concat(payload)
+      this.setState({
+        spells: this.state.spells.concat(payload)
       })
     })
   }    
