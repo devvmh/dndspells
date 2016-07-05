@@ -169,18 +169,13 @@ class Root extends Component {
 
   fetchAllSpells = () => {
     const self = this
-    ;['cantrip', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th'].forEach(level => {
-      window.fetch(`${API}/spells/?level=${level}`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(response => {
-        return response.json()
-      }).then(payload => {
-        self.setState({
-          spells: self.state.spells.concat(payload)
-        })
+    window.fetch(`${API}/spells.json`, {
+      method: 'GET'
+    }).then(response => {
+      return response.json()
+    }).then(payload => {
+      self.setState({
+        spells: self.state.spells.concat(payload)
       })
     })
   }    
@@ -210,13 +205,16 @@ class Root extends Component {
         >
           .
         </span>
-        <TabComponent spells={this.state.spells}
-          classes={classes}
-          authenticated={this.state.authenticated}
-          updateSpell={this.handleUpdateSpell}
-          changeTabState={this.handleChangeTabState(tabIndex)}
-          state={this.state.tabState[tabIndex]}
-        />
+
+        {this.state.spells.length === 0 ? <p>Loading spells...</p> : (
+          <TabComponent spells={this.state.spells}
+            classes={classes}
+            authenticated={this.state.authenticated}
+            updateSpell={this.handleUpdateSpell}
+            changeTabState={this.handleChangeTabState(tabIndex)}
+            state={this.state.tabState[tabIndex]}
+          />
+        )}
       </div>
     )
   }
