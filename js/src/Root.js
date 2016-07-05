@@ -6,6 +6,7 @@ import SpellBooleanEditor from './SpellBooleanEditor'
 import SavedSpellbook from './SavedSpellbook'
 import { getQueryParamByName } from './util'
 import _ from 'lodash'
+import 'whatwg-fetch'
 
 const STATE_VERSION = 3
 const API = '/api'
@@ -42,7 +43,7 @@ class Root extends Component {
     super(props)
     this.state = {
       STATE_VERSION,
-      spells: this.props.spells,
+      spells: [],
       tabIndex: 1,
       authenticated: false,
       tabState: {}
@@ -56,10 +57,11 @@ class Root extends Component {
         ? savedState
         : this.state
     )
-    newState.spells = window.spells
+    newState.spells = []
     Object.assign(newState, this.handleQueryParams(newState))
     this.lsSetState(newState)
     this.checkAuthentication()
+    this.fetchAllSpells()
   }
 
   lsSetState = state => {
@@ -114,60 +116,74 @@ class Root extends Component {
 
   checkAuthentication = () => {
     const self = this
-    if (window.fetch) {
-      fetch(`${API}/spells/1/`, {
-        method: 'PATCH',
-        credentials: 'same-origin',
-        headers: {
-          'X-CSRFToken': this.getCookie('csrftoken'),
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name: 'Aid' })
-      }).then(response => {
-        const newState = self.state
-        if (response.ok) {
-          newState.authenticated = true
-        } else {
-          newState.authenticated = false
-          if (tabs[newState.tabIndex].needs_auth) {
-            newState.tabIndex = 1
-          }
+    window.fetch(`${API}/spells/1/`, {
+      method: 'PATCH',
+      credentials: 'same-origin',
+      headers: {
+        'X-CSRFToken': this.getCookie('csrftoken'),
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name: 'Aid' })
+    }).then(response => {
+      const newState = self.state
+      if (response.ok) {
+        newState.authenticated = true
+      } else {
+        newState.authenticated = false
+        if (tabs[newState.tabIndex].needs_auth) {
+          newState.tabIndex = 1
         }
-        self.lsSetState(newState)
-      })
-    }
+      }
+      self.lsSetState(newState)
+    })
   }
   
   handleUpdateSpell = (id, data) => {
     const self = this
-    if (window.fetch) {
-      fetch(`${API}/spells/${id}/`, {
-        method: 'PATCH',
-        credentials: 'same-origin',
+    window.fetch(`${API}/spells/${id}/`, {
+      method: 'PATCH',
+      credentials: 'same-origin',
+      headers: {
+        'X-CSRFToken': this.getCookie('csrftoken'),
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(response => {
+      return response.json()
+    }).then(payload => {
+      const newState = Object.assign({}, self.state)
+      newState.spells = self.state.spells.map(spell => {
+        if (spell.id === payload.id) {
+          return payload
+        }
+        return spell
+      })
+      self.lsSetState(newState)
+    }, error => {
+      console.error("updateSpell caught an error")
+      console.error(error)
+    })
+  }
+
+  fetchAllSpells = () => {
+    const self = this
+    ;['cantrip', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th'].forEach(level => {
+      window.fetch(`${API}/spells/?level=${level}`, {
+        method: 'GET',
         headers: {
-          'X-CSRFToken': this.getCookie('csrftoken'),
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+          'Accept': 'application/json'
+        }
       }).then(response => {
         return response.json()
-      }).then(data => {
-        const newState = self.state
-        newState.spells = self.state.spells.map(spell => {
-          if (spell.id === data.id) {
-            return data
-          }
-          return spell
+      }).then(payload => {
+        self.setState({
+          spells: self.state.spells.concat(payload)
         })
-        self.lsSetState(newState)
-      }).catch(error => {
-        console.error("updateSpell caught an error")
-        console.error(error)
       })
-    }
-  }
+    })
+  }    
 
   render = () => {
     const { tabIndex } = this.state

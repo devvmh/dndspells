@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
     'rest_framework',
     'webpack_loader'
 )
@@ -110,6 +111,9 @@ REST_FRAMEWORK = {
   ],
   'DEFAULT_AUTHENTICATION_CLASSES': [
     'rest_framework.authentication.SessionAuthentication'
+  ],
+  'DEFAULT_FILTER_BACKENDS': [
+    'rest_framework.filters.DjangoFilterBackend'
   ]
 }
 

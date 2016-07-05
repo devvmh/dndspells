@@ -18,7 +18,8 @@
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
     "webpack": "^1.12.14",
-    "webpack-bundle-tracker": "0.0.93"
+    "webpack-bundle-tracker": "0.0.93",
+    "whatwg-fetch": "^1.0.0"
   },
   "scripts": {
     "build": "webpack --config webpack.config.js",

@@ -6,7 +6,6 @@ from .models import *
 
 def index(request):
   return render(request, 'index.html', {
-    'spells': json.dumps([x for x in spells()]),
     'classes': json.dumps([x for x in CasterClass.objects.values()])
   })
 
