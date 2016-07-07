@@ -71,12 +71,13 @@ class Root extends Component {
 
   handleQueryParams = state => {
     const spellName = getQueryParamByName('spell')
+    const newState = Object.assign({}, state)
     if (spellName) {
-      state.tabIndex = 2 // search spells
-      state.tabState[2].query = spellName
+      newState.tabIndex = 2 // search spells
+      newState.tabState[2].query = spellName
     }
 
-    return state
+    return newState
   }
 
   handleTabChange = tabIndex => () => {
@@ -86,8 +87,6 @@ class Root extends Component {
     if (tabs[tabIndex].needs_auth && !this.state.authenticated) {
       return
     }
-    const newState = this.state
-    newState.tabIndex = tabIndex
     this.lsSetState({ ...this.state, tabIndex })
   }
 
@@ -103,15 +102,15 @@ class Root extends Component {
 
   getCookie = key => {
     if (document.cookie && document.cookie != '') {
-      var cookies = document.cookie.split(';');
+      var cookies = document.cookie.split(';')
       for (let i = 0; i < cookies.length; i += 1) {
-        const cookie = _.trim(cookies[i]);
+        const cookie = _.trim(cookies[i])
         if (cookie.substring(0, key.length + 1) == (key + '=')) {
-          return decodeURIComponent(cookie.substring(key.length + 1));
+          return decodeURIComponent(cookie.substring(key.length + 1))
         }
       }
     }
-    return null;
+    return null
   }
 
   checkAuthentication = () => {
@@ -125,7 +124,7 @@ class Root extends Component {
       },
       body: JSON.stringify({ name: 'Aid' })
     }).then(response => {
-      const newState = this.state
+      const newState = Object.assign({}, this.state)
       if (response.ok) {
         newState.authenticated = true
       } else {

@@ -1,10 +1,15 @@
+const sanitize = string => {
+  // valid characters are letters, numbers, and whitespace
+  return string.replace(/[^\s\w]+/g, '')
+}
+
 export const getQueryParamByName = name => {
   //get query params
-  const queryParams = {};
+  const queryParams = {}
   window.location.search.replace(
     new RegExp("([^?=&]+)(=([^&]*))?", "g"),
-    function($0, $1, $2, $3) { queryParams[$1] = $3; }
-  );
+    function($0, $1, $2, $3) { queryParams[$1] = $3 }
+  )
   
   const result = queryParams[name]
   if (typeof result === "string") {
@@ -12,9 +17,4 @@ export const getQueryParamByName = name => {
   } else {
     return null
   }
-}
-
-const sanitize = string => {
-  // valid characters are letters, numbers, and whitespace
-  return string.replace(/[^\s\w]+/g, '')
 }

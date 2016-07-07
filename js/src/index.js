@@ -3,6 +3,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 ReactDOM.render(
-  <Root classes={classes} />,
+  <Root classes={window.classes} />,
   document.getElementById('root')
 )

@@ -14,7 +14,7 @@ class SpellAssigner extends Component {
     if (!props.state) {
       props.changeTabState({
         currentClass: 'Wizard',
-        currentLevel: null
+        currentLevel: ""
       })
     }
   }
@@ -35,13 +35,13 @@ class SpellAssigner extends Component {
 
   filteredSpellsInClass = inClass => {
     return _.filter(this.props.spells, spell => {
-      let include = true;
+      let include = true
       if (inClass) {
         include = include && spell.classes.indexOf(this.props.state.currentClass) !== -1
       } else {
         include = include && spell.classes.indexOf(this.props.state.currentClass) === -1
       }
-      if (this.props.state.currentLevel !== null) {
+      if (this.props.state.currentLevel !== "") {
         include = include && spell.level === this.props.state.currentLevel
       }
       return include

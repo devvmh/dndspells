@@ -22,9 +22,10 @@ class SavedSpellbook extends Component {
   }
 
   handleChangeFiltererState = filtererState => {
-    const newState = this.props.state
-    newState.filtererState = filtererState
-    this.props.changeTabState(newState)
+    this.props.changeTabState({
+      ...this.props.state,
+      filtererState
+    })
   }
 
   safeSpellbook = () => {
@@ -39,23 +40,22 @@ class SavedSpellbook extends Component {
     if (spell) {
       spellbook.push(spell)
     }
-    const newState = this.props.state
-    newState.spellbook = spellbook
-    this.props.changeTabState(newState)
+    this.props.changeTabState({ ...this.props.state, spellbook })
   }
 
   handleSpellbookRemove = e => {
     const spellbook = this.safeSpellbook()
-    const spell_id = e.target.value
-    const newState = this.props.state
-    newState.spellbook = spellbook.filter(spell => !!spell && spell.id != spell_id)
-    this.props.changeTabState(newState)
+    const spell_id = parseInt(e.target.value)
+    this.props.changeTabState({
+      ...this.props.state,
+      spellbook: spellbook.filter(spell => !!spell && spell.id !== spell_id)
+    })
   }
 
   handleBackupValueChange = e => {
     try {
       const spellbook = JSON.parse(e.target.value)
-      const newState = this.props.state
+      const newState = Object.assign({}, this.props.state)
       newState.spellbook = spellbook
       this.props.changeTabState(newState)
     } catch (error) {

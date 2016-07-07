@@ -26,5 +26,11 @@
     "build:watch": "webpack --config webpack.config.js --watch"
   },
   "author": "Devin Howard",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "babel-eslint": "^6.1.0",
+    "eslint": "^3.0.1",
+    "eslint-plugin-immutable": "^1.0.0",
+    "eslint-plugin-react": "^5.2.2"
+  }
 }

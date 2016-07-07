@@ -48,7 +48,7 @@ class SpellFilterer extends Component {
   }
 
   handleExpandSpell = id => () => {
-    const newState = this.props.state
+    const newState = Object.assign({}, this.props.state)
     if (this.props.state.expandedSpell === id) {
       newState.expandedSpell = null
     } else {
