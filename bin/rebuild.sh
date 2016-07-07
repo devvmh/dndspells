@@ -5,6 +5,7 @@ source venv/bin/activate
 
 git pull
 
+pip install -r requirements.txt
 python manage.py migrate
 
 (cd js && npm install && npm run build)
