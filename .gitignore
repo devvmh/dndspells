@@ -8,3 +8,4 @@ node_modules/
 js/lib/
 js/dist/
 js/webpack-stats.json
+static

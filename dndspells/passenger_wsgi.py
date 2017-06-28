@@ -5,9 +5,9 @@ try:
   from localconfig import PASSENGER_VIRTUAL_ENV
   from localconfig import PASSENGER_CHDIR
 except:
-  PASSENGER_PATH = '/home/dnd/dndspells/venv/bin:/usr/local/bin:/usr/bin'
-  PASSENGER_VIRTUAL_ENV = '/home/dnd/dndspells/venv/bin'
-  PASSENGER_CHDIR = '/home/dnd/dndspells'
+  PASSENGER_PATH = '/home/dndspells/dndspells/venv/bin:/usr/local/bin:/usr/bin'
+  PASSENGER_VIRTUAL_ENV = '/home/dndspells/dndspells/venv/bin'
+  PASSENGER_CHDIR = '/home/dndspells/dndspells'
 
 os.environ['PATH'] = PASSENGER_PATH
 os.environ['VIRTUAL_ENV'] = PASSENGER_VIRTUAL_ENV
