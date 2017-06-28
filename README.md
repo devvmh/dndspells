@@ -37,4 +37,4 @@ Now install Phusion Passenger + nginx and serve that file. My nginx config looks
       }
     }
 
-You also probably need to run `python manage.py collectstatic`
+You also probably need to run `python manage.py collectstatic`. You can just run `bin/rebuild.sh` if you aren't sure.
