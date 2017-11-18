@@ -34,7 +34,7 @@ class SpellAssigner extends Component {
   }
 
   filteredSpellsInClass = inClass => {
-    return _.filter(this.props.spells, spell => {
+    return this.props.spells.filter(spell => {
       let include = true
       if (inClass) {
         include = include && spell.classes.indexOf(this.props.state.currentClass) !== -1
@@ -45,7 +45,7 @@ class SpellAssigner extends Component {
         include = include && spell.level === this.props.state.currentLevel
       }
       return include
-    })
+    }).sort((a, b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
   }
 
   handleAssignSpell = spell => e => {
@@ -79,7 +79,7 @@ class SpellAssigner extends Component {
             value={this.props.state.currentClass}
             onChange={this.chooseClass}
           >
-            {this.props.classes.map(c => (
+            {this.props.classes.sort().map(c => (
               <option key={c} value={c}>{c}</option>
             ))}
           </select>

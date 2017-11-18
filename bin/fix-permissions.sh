@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DEPLOY_DIR=/home/dnd/dndspells
-DEPLOY_USER=dnd
+DEPLOY_DIR=/home/dndspells/dndspells
+DEPLOY_USER=dndspells
 WEB_USER=www-data
 
 set -e

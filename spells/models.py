@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db.models import *
 
 class CasterClass(Model):
+  ARTIFICER = 'Artificer'
   BARD = 'Bard'
   CLERIC = 'Cleric'
   DRUID = 'Druid'
@@ -12,6 +13,7 @@ class CasterClass(Model):
   WARLOCK = 'Warlock'
   WIZARD = 'Wizard'
   CLASSES = (
+    (ARTIFICER, 'Artificer'),
     (BARD, 'Bard'),
     (CLERIC, 'Cleric'),
     (DRUID, 'Druid'),

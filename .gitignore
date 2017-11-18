@@ -8,4 +8,5 @@ node_modules/
 js/lib/
 js/dist/
 js/webpack-stats.json
+js/package-lock.json
 static

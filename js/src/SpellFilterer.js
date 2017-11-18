@@ -170,7 +170,7 @@ class SpellFilterer extends Component {
 
   // except text filter
   renderFilters = () => {
-    const { classes } = this.props
+    const classes = this.props.classes.sort()
     const levels = ['cantrip', '1st', '2nd', '3rd', '4th', '5th', '6th',
                     '7th', '8th', '9th']
     const schools = ['Abjuration', 'Conjuration', 'Divination',
