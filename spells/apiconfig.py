@@ -7,11 +7,11 @@ class SpellSerializer(ModelSerializer):
     model = Spell
     fields = ('id', 'name', 'level', 'school', 'ritual', 'concentration',
               'classes', 'casting_time', 'range', 'components', 'duration',
-              'description')
+              'description', 'source')
 
 class SpellViewSet(ModelViewSet):
   queryset = Spell.objects.all()
   serializer_class = SpellSerializer
   filter_fields = ('id', 'name', 'level', 'school', 'ritual',
                    'concentration', 'classes', 'casting_time', 'range',
-                   'components', 'duration', 'description')
+                   'components', 'duration', 'description', 'source')

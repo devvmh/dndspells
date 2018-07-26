@@ -26,6 +26,16 @@ class CasterClass(Model):
   name = CharField(max_length=255, primary_key=True, choices=CLASSES)
   def __str__(self): return self.name
 
+class SpellSource(Model):
+  PHB = 'phb'
+  XGE = 'xge'
+  SOURCES = (
+    (PHB, "Player's Handbook"),
+    (XGE, "Xanathar's Guide to Everything")
+  )
+  name = CharField(max_length=255, primary_key=True, choices=SOURCES)
+  def __str__(self): return self.name
+
 class Spell(Model):
   SCHOOLS = [(x,x) for x in ['Abjuration', 'Conjuration', 'Divination',
                              'Enchantment', 'Evocation', 'Illusion',
@@ -38,6 +48,7 @@ class Spell(Model):
   ritual = BooleanField(default=False)
   concentration = BooleanField(default=False)
   classes = ManyToManyField('CasterClass', blank=True)
+  source = ForeignKey(SpellSource, on_delete=CASCADE, default='phb')
   casting_time = CharField(max_length=255)
   range = CharField(max_length=255)
   components = CharField(max_length=2048)
