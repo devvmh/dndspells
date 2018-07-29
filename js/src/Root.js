@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react'
+import SavedSpellbook from './SavedSpellbook'
 import SpellAssigner from './SpellAssigner'
 import SpellFilterer from './SpellFilterer'
 import SpellTextSearch from './SpellTextSearch'
 import SpellBooleanEditor from './SpellBooleanEditor'
-import SavedSpellbook from './SavedSpellbook'
+import SourceSelector from './SourceSelector'
 import { getQueryParamByName } from './util'
 import _ from 'lodash'
 import 'whatwg-fetch'
@@ -44,6 +45,7 @@ class Root extends Component {
     this.state = {
       STATE_VERSION,
       spells: [],
+      sources: ['phb'],
       tabIndex: 1,
       authenticated: false,
       tabState: {}
@@ -136,6 +138,10 @@ class Root extends Component {
       this.lsSetState(newState)
     })
   }
+
+  handleUpdateSources = sources => {
+    this.lsSetState({ ...this.state, sources })
+  }
   
   handleUpdateSpell = (id, data) => {
     window.fetch(`${API}/spells/${id}/`, {
@@ -202,12 +208,18 @@ class Root extends Component {
           .
         </span>
 
+        <SourceSelector sources={this.state.sources}
+          potentialSources={['phb', 'xge']}
+          updateSources={this.handleUpdateSources}
+        />
+
         {this.state.spells.length === 0 ? <p>Loading spells...</p> : (
           <TabComponent spells={this.state.spells}
             classes={classes}
             authenticated={this.state.authenticated}
             updateSpell={this.handleUpdateSpell}
             changeTabState={this.handleChangeTabState(tabIndex)}
+            sources={this.state.sources}
             state={this.state.tabState[tabIndex]}
           />
         )}

@@ -119,6 +119,7 @@ class SavedSpellbook extends Component {
 
 SavedSpellbook.propTypes = {
   spells: PropTypes.arrayOf(PropTypes.object),
+  sources: PropTypes.arrayOf(PropTypes.string),
   classes: PropTypes.arrayOf(PropTypes.string),
   authenticated: PropTypes.bool,
   changeTabState: PropTypes.func,

@@ -105,6 +105,10 @@ class SpellFilterer extends Component {
     return spells
   }
 
+  filterSource = spells => {
+    return _.filter(spells, spell => this.props.sources.includes(spell.source))
+  }
+
   filteredSpells = () => {
     return (
       this.filterConcentration(
@@ -112,7 +116,8 @@ class SpellFilterer extends Component {
       this.filterSchool(
       this.filterLevel(
       this.filterClass(
-        this.props.spells)))))
+      this.filterSource(
+        this.props.spells))))))
     )
   }
 
@@ -280,6 +285,7 @@ class SpellFilterer extends Component {
 
 SpellFilterer.propTypes = ({
   spells: PropTypes.arrayOf(PropTypes.object),
+  sources: PropTypes.arrayOf(PropTypes.string),
   classes: PropTypes.arrayOf(PropTypes.string),
   authenticated: PropTypes.bool,
   changeTabState: PropTypes.func,

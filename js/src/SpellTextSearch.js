@@ -105,6 +105,7 @@ class SpellTextSearch extends Component {
 
 SpellTextSearch.propTypes = ({
   spells: PropTypes.arrayOf(PropTypes.object),
+  sources: PropTypes.arrayOf(PropTypes.string),
   classes: PropTypes.arrayOf(PropTypes.string),
   authenticated: PropTypes.bool,
   updateSpell: PropTypes.func,

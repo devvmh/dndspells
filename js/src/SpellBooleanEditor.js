@@ -38,6 +38,7 @@ class SpellBooleanEditor extends Component {
 
 SpellBooleanEditor.propTypes = ({
   spells: PropTypes.arrayOf(PropTypes.object),
+  sources: PropTypes.arrayOf(PropTypes.string),
   updateSpell: PropTypes.func,
 })
 
