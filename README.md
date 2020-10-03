@@ -1,10 +1,24 @@
 Django/React project to host DND 5e spell data
 
-To run it (need python's virtualenv):
+To install dependencies / set up environment:
 
     virtualenv venv
     source venv/bin/activate
     pip install -r requirements.txt
+    $(cd js && npm install)
+
+### Run locally
+
+Terminal 1:
+
+    cd js
+    npm run build:watch
+
+Terminal 2:
+
+    python manage.py runserver
+
+### Run on a passenger web server
 
 Now create dndspells/localconfig.py and define these three variables (shown with their default values in passenger_wsgi.py):
 

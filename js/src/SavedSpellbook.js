@@ -109,6 +109,7 @@ class SavedSpellbook extends Component {
           authenticated={this.props.authenticated}
           updateSpell={this.props.updateSpell}
           changeTabState={this.handleChangeFiltererState}
+          sources={this.props.sources}
           state={this.props.state.filtererState}
         />
         {this.renderSpellbookBackup()}
