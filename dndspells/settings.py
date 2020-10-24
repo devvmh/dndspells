@@ -42,12 +42,11 @@ INSTALLED_APPS = (
     'webpack_loader'
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -113,7 +112,7 @@ REST_FRAMEWORK = {
     'rest_framework.authentication.SessionAuthentication'
   ],
   'DEFAULT_FILTER_BACKENDS': [
-    'rest_framework.filters.DjangoFilterBackend'
+    'django_filters.rest_framework.DjangoFilterBackend'
   ]
 }
 

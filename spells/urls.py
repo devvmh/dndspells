@@ -1,13 +1,13 @@
-from django.conf.urls import patterns, include, url
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import *
+from .views import index
 from .apiconfig import SpellViewSet
 
 router = DefaultRouter()
 router.register(r'spells', SpellViewSet)
 
-urlpatterns = patterns('spells.views',
-  url(r'^$', 'index', name='index'),
-  url(r'^api/', include(router.urls))
-)
+urlpatterns = [
+  path('', index, name='index'),
+  path('api/', include(router.urls))
+]
