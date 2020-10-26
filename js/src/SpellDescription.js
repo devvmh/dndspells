@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import { PropTypes} from 'prop-types'
 import _ from 'lodash'
 
 class SpellDescription extends Component {
@@ -10,10 +11,10 @@ class SpellDescription extends Component {
     }
   }
 
-  componentWillReceiveProps = nextProps => {
-    this.setState({
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return {
       description: nextProps.spell.description
-    })
+    }
   }
 
   startEditing = e => {

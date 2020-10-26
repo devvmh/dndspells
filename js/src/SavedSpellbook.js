@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
+import { PropTypes} from 'prop-types'
 import SpellFilterer from './SpellFilterer'
 
 class SavedSpellbook extends Component {
@@ -6,7 +7,7 @@ class SavedSpellbook extends Component {
     this.checkState(this.props)
   }
 
-  componentWillReceiveProps = nextProps => {
+  componentDidUpdate = nextProps => {
     this.checkState(nextProps)
   }
 

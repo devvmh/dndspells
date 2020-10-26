@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import { PropTypes} from 'prop-types'
 import _ from 'lodash'
  
 class SpellAssigner extends Component {
@@ -6,7 +7,7 @@ class SpellAssigner extends Component {
     this.checkState(this.props)
   }
 
-  componentWillReceiveProps = nextProps => {
+  componentDidUpdate = nextProps => {
     this.checkState(nextProps)
   }
 

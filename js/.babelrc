@@ -1,9 +1,14 @@
 {
-  "presets": ["react", "es2015"],
+  "presets": [
+    "@babel/preset-react", 
+    ["@babel/preset-env", {
+      "targets": "since 2015, not dead"
+    }]
+  ],
   "plugins": [
     "transform-es2015-modules-commonjs",
     "transform-class-properties",
-    "transform-object-rest-spread",
+    "@babel/plugin-proposal-object-rest-spread",
     "transform-react-constant-elements"
   ]
 }

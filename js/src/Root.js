@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import { PropTypes} from 'prop-types'
 import SavedSpellbook from './SavedSpellbook'
 import SpellAssigner from './SpellAssigner'
 import SpellFilterer from './SpellFilterer'
@@ -39,29 +40,29 @@ const tabs = {
   }
 }
 
+const DEFAULT_STATE = {
+  STATE_VERSION,
+  spells: [],
+  sources: ['phb'],
+  tabIndex: 1,
+  authenticated: false,
+  tabState: {}
+}
+
 class Root extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      STATE_VERSION,
-      spells: [],
-      sources: ['phb'],
-      tabIndex: 1,
-      authenticated: false,
-      tabState: {}
-    }
-  }
-
-  componentWillMount = () => {
     const savedState = JSON.parse(localStorage.getItem('state'))
     const newState = (
       savedState && savedState.STATE_VERSION === STATE_VERSION
         ? savedState
-        : this.state
+        : this.DEFAULT_STATE
     )
-    newState.spells = []
     Object.assign(newState, this.handleQueryParams(newState))
-    this.lsSetState(newState)
+    this.state = Object.assign({}, { spells: [] }, newState)
+  }
+
+  componentDidMount = () => {
     this.fetchAllSpells()
     this.checkAuthentication()
   }

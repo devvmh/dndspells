@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import { PropTypes} from 'prop-types'
 import _ from 'lodash'
 import SpellViewer, { EXPAND_ALL, EXPAND_NONE } from './SpellViewer'
 
@@ -7,7 +8,7 @@ class SpellFilterer extends Component {
     this.checkState(this.props)
   }
 
-  componentWillReceiveProps = nextProps => {
+  componentDidUpdate = nextProps => {
     this.checkState(nextProps)
   }
 
