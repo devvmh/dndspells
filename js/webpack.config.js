@@ -13,17 +13,20 @@ module.exports = {
   },
 
   plugins: [
-    new BundleTracker({ filename: './webpack-stats.json' }),
+    new BundleTracker({
+      filename: './webpack-stats.json',
+      publicPath: '/static/'
+    }),
   ],
 
   module: {
-    loaders: [
+    rules: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader'},
     ],
   },
 
   resolve: {
-    modulesDirectories: ['node_modules'],
-    extensions: ['', '.js', '.jsx']
+    modules: ['node_modules'],
+    extensions: ['.js', '.jsx']
   },
 }
