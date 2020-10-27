@@ -6,9 +6,6 @@
     }]
   ],
   "plugins": [
-    "transform-es2015-modules-commonjs",
-    "transform-class-properties",
-    "@babel/plugin-proposal-object-rest-spread",
-    "transform-react-constant-elements"
+    "@babel/plugin-proposal-class-properties"
   ]
 }
