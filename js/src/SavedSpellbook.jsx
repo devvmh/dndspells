@@ -94,7 +94,9 @@ class SavedSpellbook extends Component {
           {this.props.spells.filter((spell) => (
             // only include spells not in spellbook
             this.props.state.spellbook.indexOf(spell) === -1
-          )).sort().map((spell) => (
+          ))
+          .sort((a, b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
+          .map((spell) => (
             <option key={spell.id} value={spell.id}>{spell.name}</option>
           ))}
         </select>
