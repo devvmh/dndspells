@@ -22,9 +22,9 @@ Terminal 2:
 
 Now create dndspells/localconfig.py and define these three variables (shown with their default values in passenger_wsgi.py):
 
-  PASSENGER_PATH = '/home/dndspells/dndspells/venv/bin:/usr/local/bin:/usr/bin'
-  PASSENGER_VIRTUAL_ENV = '/home/dndspells/dndspells/venv/bin'
-  PASSENGER_CHDIR = '/home/dndspells/dndspells'
+    PASSENGER_PATH = '/home/dndspells/dndspells/venv/bin:/usr/local/bin:/usr/bin'
+    PASSENGER_VIRTUAL_ENV = '/home/dndspells/dndspells/venv/bin'
+    PASSENGER_CHDIR = '/home/dndspells/dndspells'
 
 Now install Phusion Passenger + nginx and serve that file. My nginx config looks like:
 
