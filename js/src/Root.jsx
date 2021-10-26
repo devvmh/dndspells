@@ -219,7 +219,7 @@ class Root extends Component {
 
         <SourceSelector
           sources={this.state.sources}
-          potentialSources={['phb', 'xge']}
+          potentialSources={['phb', 'xge', 'tce']}
           updateSources={this.handleUpdateSources}
         />
 
