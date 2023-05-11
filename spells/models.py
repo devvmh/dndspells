@@ -30,10 +30,12 @@ class SpellSource(Model):
   PHB = 'phb'
   XGE = 'xge'
   TCE = 'tce'
+  KPDM = 'kpdm'
   SOURCES = (
     (PHB, "Player's Handbook"),
     (XGE, "Xanathar's Guide to Everything"),
-    (TCE, "Tasha's Cauldron of Everything")
+    (TCE, "Tasha's Cauldron of Everything"),
+    (KPDM, "Kobold Press Deep Magic")
   )
   name = CharField(max_length=255, primary_key=True, choices=SOURCES)
   def __str__(self): return self.name
